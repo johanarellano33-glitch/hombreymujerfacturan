@@ -32,7 +32,7 @@
               "RelativeDocumentMoniker": "Components\\Data\\ServicioFacturas.cs",
               "ToolTip": "C:\\Users\\M8-MQ23-H\\Desktop\\blazorfactura\\Components\\Data\\ServicioFacturas.cs",
               "RelativeToolTip": "Components\\Data\\ServicioFacturas.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAowBkAAAARAAAAAAAAAA==",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAQwBcAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-05T20:40:15.176Z",
               "EditorCaption": ""
@@ -47,8 +47,7 @@
               "RelativeToolTip": "Components\\Data\\Factura.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-05T20:30:42.805Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-05T20:30:42.805Z"
             },
             {
               "$type": "Document",
@@ -60,8 +59,7 @@
               "RelativeToolTip": "Components\\Data\\Articulo.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-05T20:30:20.83Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-05T20:30:20.83Z"
             }
           ]
         }
