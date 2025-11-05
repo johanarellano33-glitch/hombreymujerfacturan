@@ -28,13 +28,11 @@ namespace blazorfactura.Components.Data
                 }
             }
         };
-        public Task <List<Factura>> ObtenerFacturas() => Task.FromResult(Facturas);
-{
-            return Facturas;
-}
+        public Task <List<Factura>> ObtenerFacturas() => Task.FromResult(facturas);
+       
  public Task AgregarFactura(Factura factura)
 {
-    Facturas.Add(factura);
+    facturas.Add(factura);
     return Task.CompletedTask;
 }
 
@@ -47,8 +45,20 @@ public Task EliminarFactura(int identificador)
     }
     return Task.CompletedTask;
 }
+        public Task ActualizarFactura(Factura factura)
+        {
+            var facturaExistente = facturas.FirstOrDefault(f => f.Identificador == factura.Identificador);
+            if (facturaExistente != null)
+            {
+                facturaExistente.Fecha = factura.Fecha;
+                facturaExistente.NombreCliente = factura.NombreCliente;
+                facturaExistente.Articulos = factura.Articulos;
+            }
+            return Task.CompletedTask;
+        }
 
-}
+
+    }
 }
 
 
