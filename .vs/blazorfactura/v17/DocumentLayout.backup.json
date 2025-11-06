@@ -3,20 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\short\\Desktop\\hombreymujerfacturan\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C32FE5F1-C8CF-FD3A-09DB-4ABFB1E1F558}|blazorfactura.csproj|c:\\users\\short\\desktop\\hombreymujerfacturan\\components\\servicios\\serviciocontrolador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C32FE5F1-C8CF-FD3A-09DB-4ABFB1E1F558}|blazorfactura.csproj|solutionrelative:components\\servicios\\serviciocontrolador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C32FE5F1-C8CF-FD3A-09DB-4ABFB1E1F558}|blazorfactura.csproj|c:\\users\\short\\desktop\\hombreymujerfacturan\\components\\data\\serviciofacturas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C32FE5F1-C8CF-FD3A-09DB-4ABFB1E1F558}|blazorfactura.csproj|solutionrelative:components\\data\\serviciofacturas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{C32FE5F1-C8CF-FD3A-09DB-4ABFB1E1F558}|blazorfactura.csproj|c:\\users\\short\\desktop\\hombreymujerfacturan\\components\\data\\articulo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C32FE5F1-C8CF-FD3A-09DB-4ABFB1E1F558}|blazorfactura.csproj|solutionrelative:components\\data\\articulo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C32FE5F1-C8CF-FD3A-09DB-4ABFB1E1F558}|blazorfactura.csproj|c:\\users\\short\\desktop\\hombreymujerfacturan\\components\\data\\factura.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C32FE5F1-C8CF-FD3A-09DB-4ABFB1E1F558}|blazorfactura.csproj|solutionrelative:components\\data\\factura.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C32FE5F1-C8CF-FD3A-09DB-4ABFB1E1F558}|blazorfactura.csproj|c:\\users\\short\\desktop\\hombreymujerfacturan\\components\\data\\serviciofacturas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C32FE5F1-C8CF-FD3A-09DB-4ABFB1E1F558}|blazorfactura.csproj|solutionrelative:components\\data\\serviciofacturas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C32FE5F1-C8CF-FD3A-09DB-4ABFB1E1F558}|blazorfactura.csproj|c:\\users\\short\\desktop\\hombreymujerfacturan\\components\\servicios\\serviciocontrolador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C32FE5F1-C8CF-FD3A-09DB-4ABFB1E1F558}|blazorfactura.csproj|solutionrelative:components\\servicios\\serviciocontrolador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C32FE5F1-C8CF-FD3A-09DB-4ABFB1E1F558}|blazorfactura.csproj|c:\\users\\short\\desktop\\hombreymujerfacturan\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C32FE5F1-C8CF-FD3A-09DB-4ABFB1E1F558}|blazorfactura.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,24 +30,37 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\short\\Desktop\\hombreymujerfacturan\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\short\\Desktop\\hombreymujerfacturan\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-06T21:40:00.788Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "ServicioControlador.cs",
               "DocumentMoniker": "C:\\Users\\short\\Desktop\\hombreymujerfacturan\\Components\\Servicios\\ServicioControlador.cs",
               "RelativeDocumentMoniker": "Components\\Servicios\\ServicioControlador.cs",
               "ToolTip": "C:\\Users\\short\\Desktop\\hombreymujerfacturan\\Components\\Servicios\\ServicioControlador.cs",
               "RelativeToolTip": "Components\\Servicios\\ServicioControlador.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAowC0AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAUAAAAAAAAAAAASwCQAAABDAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-05T21:41:08.538Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "ServicioFacturas.cs",
               "DocumentMoniker": "C:\\Users\\short\\Desktop\\hombreymujerfacturan\\Components\\Data\\ServicioFacturas.cs",
               "RelativeDocumentMoniker": "Components\\Data\\ServicioFacturas.cs",
@@ -56,7 +73,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "Factura.cs",
               "DocumentMoniker": "C:\\Users\\short\\Desktop\\hombreymujerfacturan\\Components\\Data\\Factura.cs",
               "RelativeDocumentMoniker": "Components\\Data\\Factura.cs",
@@ -64,11 +81,12 @@
               "RelativeToolTip": "Components\\Data\\Factura.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-05T20:30:42.805Z"
+              "WhenOpened": "2025-11-05T20:30:42.805Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "Articulo.cs",
               "DocumentMoniker": "C:\\Users\\short\\Desktop\\hombreymujerfacturan\\Components\\Data\\Articulo.cs",
               "RelativeDocumentMoniker": "Components\\Data\\Articulo.cs",
@@ -76,11 +94,8 @@
               "RelativeToolTip": "Components\\Data\\Articulo.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-05T20:30:20.83Z"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+              "WhenOpened": "2025-11-05T20:30:20.83Z",
+              "EditorCaption": ""
             }
           ]
         }

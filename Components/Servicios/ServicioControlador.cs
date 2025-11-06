@@ -31,7 +31,7 @@ namespace blazorfactura.Components.Servicios
             var facturas = await _servicioFacturas.ObtenerFacturas();
             return facturas.Any() ? facturas.Max(f => f.Identificador) + 1 : 1;
         }
-    }
+    
     public async Task EliminarFactura(int identificador)
         {
             await _servicioFacturas.EliminarFactura(identificador);
