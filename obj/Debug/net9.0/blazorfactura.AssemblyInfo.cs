@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("blazorfactura")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d0fb27e1e67e29186083417a19261dc9e2907eac")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f7a20ac290bf6a4c3716dff3964d12d84cc99baa")]
 [assembly: System.Reflection.AssemblyProductAttribute("blazorfactura")]
 [assembly: System.Reflection.AssemblyTitleAttribute("blazorfactura")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
