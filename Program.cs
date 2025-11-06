@@ -1,10 +1,16 @@
 using blazorfactura.Components;
+using blazorfactura.Components.Data;
+using blazorfactura.Components.Servicios;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddSingleton<ServicioControlador>();
+builder.Services.AddSingleton<ServicioFacturas>();
+
 
 var app = builder.Build();
 
