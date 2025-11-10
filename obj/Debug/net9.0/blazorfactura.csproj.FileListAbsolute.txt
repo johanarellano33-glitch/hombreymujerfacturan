@@ -27,9 +27,9 @@ C:\Users\short\Desktop\hombreymujerfacturan\obj\Debug\net9.0\staticwebassets.bui
 C:\Users\short\Desktop\hombreymujerfacturan\obj\Debug\net9.0\staticwebassets.build.json.cache
 C:\Users\short\Desktop\hombreymujerfacturan\obj\Debug\net9.0\staticwebassets.development.json
 C:\Users\short\Desktop\hombreymujerfacturan\obj\Debug\net9.0\staticwebassets.build.endpoints.json
-C:\Users\short\Desktop\hombreymujerfacturan\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
 C:\Users\short\Desktop\hombreymujerfacturan\obj\Debug\net9.0\blazorfactura.dll
 C:\Users\short\Desktop\hombreymujerfacturan\obj\Debug\net9.0\refint\blazorfactura.dll
 C:\Users\short\Desktop\hombreymujerfacturan\obj\Debug\net9.0\blazorfactura.pdb
 C:\Users\short\Desktop\hombreymujerfacturan\obj\Debug\net9.0\blazorfactura.genruntimeconfig.cache
 C:\Users\short\Desktop\hombreymujerfacturan\obj\Debug\net9.0\ref\blazorfactura.dll
+C:\Users\short\Desktop\hombreymujerfacturan\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
