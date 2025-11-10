@@ -41,5 +41,31 @@ namespace blazorfactura.Components.Servicios
             await _servicioFacturas.ActualizarFactura(factura);
 
         }
+        public async Task EliminarArticulo(int facturaId, int articuloId)
+        {
+            await _servicioFacturas.EliminarArticulo(facturaId, articuloId);
+        }
+
+        public async Task ActualizarArticulo(int facturaId, Articulo articulo)
+        {
+            await _servicioFacturas.ActualizarArticulo(facturaId, articulo);
+        }
+
+        public async Task AgregarArticuloAFacturaExistente(int facturaId, Articulo articulo)
+        {
+            var facturas = await _servicioFacturas.ObtenerFacturas();
+            var factura = facturas.FirstOrDefault(f => f.Identificador == facturaId);
+
+            if (factura != null && factura.Articulos.Any())
+            {
+                articulo.Identificador = factura.Articulos.Max(a => a.Identificador) + 1;
+            }
+            else
+            {
+                articulo.Identificador = 1;
+            }
+
+            await _servicioFacturas.AgregarArticuloAFacturaExistente(facturaId, articulo);
+        }
     }
 }

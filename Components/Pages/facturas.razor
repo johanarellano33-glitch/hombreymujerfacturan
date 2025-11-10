@@ -93,7 +93,21 @@ else
     private List<Factura> listaFacturas = new();
     private Factura nuevaFactura = new() { Fecha = DateTime.Now };
     private Articulo nuevoArticulo = new() { Cantidad = 1 };
+  
+    private Factura? facturaEditando = null;
+    private DateTime fechaEditando;
+    private string clienteEditando = "";
 
+    
+    private Articulo? articuloEditando = null;
+    private Factura? facturaEditandoArticulo = null;
+    private string nombreArticuloEditando = "";
+    private decimal precioArticuloEditando = 0;
+    private int cantidadArticuloEditando = 0;
+
+   
+    private Factura? facturaAgregandoArticulo = null;
+    private Articulo nuevoArticuloFactura = new() { Cantidad = 1 };
     protected override async Task OnInitializedAsync()
     {
         listaFacturas = await FacturasControlador.ObtenerFacturas();
