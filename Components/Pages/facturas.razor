@@ -153,4 +153,30 @@ else
 
         Console.WriteLine($"Factura {identificador} eliminada");
     }
+    private void EditarFactura(Factura factura)
+    {
+        facturaEditando = factura;
+        fechaEditando = factura.Fecha;
+        clienteEditando = factura.NombreCliente;
+    }
+
+    private async Task GuardarEdicionFactura()
+    {
+        if (facturaEditando != null && !string.IsNullOrWhiteSpace(clienteEditando))
+        {
+            facturaEditando.Fecha = fechaEditando;
+            facturaEditando.NombreCliente = clienteEditando;
+
+            await FacturasControlador.ActualizarFactura(facturaEditando);
+            listaFacturas = await FacturasControlador.ObtenerFacturas();
+
+            facturaEditando = null;
+            Console.WriteLine("Factura actualizada");
+        }
+    }
+    private async Task CancelarEdicionFactura()
+    {
+        facturaEditando = null;
+    }
+
 }
