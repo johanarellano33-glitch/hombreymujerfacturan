@@ -1,11 +1,10 @@
-﻿using blazorfactura.Components.Data;
-using Microsoft.Data.Sqlite;
+﻿using Microsoft.Data.Sqlite;
+using blazorfactura.Components.Data;
 
 namespace blazorfactura.Components.Data
 {
     public class ServicioFacturas
     {
-      
         private List<Factura> facturas = new List<Factura>();
 
         public async Task<List<Factura>> ObtenerFacturas()
@@ -36,6 +35,7 @@ namespace blazorfactura.Components.Data
 
             return facturas;
         }
+
         private async Task<List<Articulo>> ObtenerArticulosPorFactura(int facturaId)
         {
             var articulos = new List<Articulo>();
@@ -88,26 +88,6 @@ namespace blazorfactura.Components.Data
 
             facturas.Add(factura);
         }
-        private async Task AgregarArticulo(int facturaId, Articulo articulo)
-        {
-            string ruta = "facturas.db";
-            using var conexion = new SqliteConnection($"DataSource={ruta}");
-            await conexion.OpenAsync();
-
-            var comando = conexion.CreateCommand();
-            comando.CommandText = @"
-                INSERT INTO Articulos (Identificador, FacturaId, Nombre, Precio, Cantidad) 
-                VALUES ($IDENTIFICADOR, $FACTURAID, $NOMBRE, $PRECIO, $CANTIDAD)";
-
-            comando.Parameters.AddWithValue("$IDENTIFICADOR", articulo.Identificador);
-            comando.Parameters.AddWithValue("$FACTURAID", facturaId);
-            comando.Parameters.AddWithValue("$NOMBRE", articulo.Nombre);
-            comando.Parameters.AddWithValue("$PRECIO", articulo.Precio);
-            comando.Parameters.AddWithValue("$CANTIDAD", articulo.Cantidad);
-
-            await comando.ExecuteNonQueryAsync();
-        }
-
 
         private async Task AgregarArticulo(int facturaId, Articulo articulo)
         {
@@ -128,32 +108,42 @@ namespace blazorfactura.Components.Data
 
             await comando.ExecuteNonQueryAsync();
         }
+
+        public async Task EliminarFactura(int identificador)
+        {
+            string ruta = "facturas.db";
+            using var conexion = new SqliteConnection($"DataSource={ruta}");
+            await conexion.OpenAsync();
+
+            var comando = conexion.CreateCommand();
+            comando.CommandText = @"DELETE FROM Articulos WHERE FacturaId=$IDENTIFICADOR";
+            comando.Parameters.AddWithValue("$IDENTIFICADOR", identificador);
+            await comando.ExecuteNonQueryAsync();
+
+        
+            comando = conexion.CreateCommand();
+            comando.CommandText = @"DELETE FROM Facturas WHERE Identificador=$IDENTIFICADOR";
+            comando.Parameters.AddWithValue("$IDENTIFICADOR", identificador);
+            await comando.ExecuteNonQueryAsync();
+        }
+
         public async Task ActualizarFactura(Factura factura)
         {
             string ruta = "facturas.db";
             using var conexion = new SqliteConnection($"DataSource={ruta}");
             await conexion.OpenAsync();
+
             var comando = conexion.CreateCommand();
             comando.CommandText = @"
                 UPDATE Facturas 
-                SET Fecha = $FECHA, NombreCliente = $NOMBRECLIENTE 
-                WHERE Identificador = $IDENTIFICADOR";
+                SET Fecha=$FECHA, NombreCliente=$NOMBRECLIENTE 
+                WHERE Identificador=$IDENTIFICADOR";
+
+            comando.Parameters.AddWithValue("$IDENTIFICADOR", factura.Identificador);
             comando.Parameters.AddWithValue("$FECHA", factura.Fecha.ToString("yyyy-MM-dd"));
             comando.Parameters.AddWithValue("$NOMBRECLIENTE", factura.NombreCliente);
-            comando.Parameters.AddWithValue("$IDENTIFICADOR", factura.Identificador);
 
             await comando.ExecuteNonQueryAsync();
-            
-           
         }
-
-
     }
 }
-
-
-
-      
-
-
-
