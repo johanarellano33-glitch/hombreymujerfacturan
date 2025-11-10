@@ -64,31 +64,87 @@ namespace blazorfactura.Components.Data
             return articulos;
         }
 
-        public Task AgregarFactura(Factura factura)
-{
-    facturas.Add(factura);
-    return Task.CompletedTask;
-}
-
-public Task EliminarFactura(int identificador)
-{
-    var factura = facturas.FirstOrDefault(f => f.Identificador == identificador);
-    if (factura != null)
-    {
-        facturas.Remove(factura);
-    }
-    return Task.CompletedTask;
-}
-        public Task ActualizarFactura(Factura factura)
+        public async Task AgregarFactura(Factura factura)
         {
-            var facturaExistente = facturas.FirstOrDefault(f => f.Identificador == factura.Identificador);
-            if (facturaExistente != null)
+            string ruta = "facturas.db";
+            using var conexion = new SqliteConnection($"DataSource={ruta}");
+            await conexion.OpenAsync();
+
+            var comando = conexion.CreateCommand();
+            comando.CommandText = @"
+                INSERT INTO Facturas (Identificador, Fecha, NombreCliente) 
+                VALUES ($IDENTIFICADOR, $FECHA, $NOMBRECLIENTE)";
+
+            comando.Parameters.AddWithValue("$IDENTIFICADOR", factura.Identificador);
+            comando.Parameters.AddWithValue("$FECHA", factura.Fecha.ToString("yyyy-MM-dd"));
+            comando.Parameters.AddWithValue("$NOMBRECLIENTE", factura.NombreCliente);
+
+            await comando.ExecuteNonQueryAsync();
+
+            foreach (var articulo in factura.Articulos)
             {
-                facturaExistente.Fecha = factura.Fecha;
-                facturaExistente.NombreCliente = factura.NombreCliente;
-                facturaExistente.Articulos = factura.Articulos;
+                await AgregarArticulo(factura.Identificador, articulo);
             }
-            return Task.CompletedTask;
+
+            facturas.Add(factura);
+        }
+        private async Task AgregarArticulo(int facturaId, Articulo articulo)
+        {
+            string ruta = "facturas.db";
+            using var conexion = new SqliteConnection($"DataSource={ruta}");
+            await conexion.OpenAsync();
+
+            var comando = conexion.CreateCommand();
+            comando.CommandText = @"
+                INSERT INTO Articulos (Identificador, FacturaId, Nombre, Precio, Cantidad) 
+                VALUES ($IDENTIFICADOR, $FACTURAID, $NOMBRE, $PRECIO, $CANTIDAD)";
+
+            comando.Parameters.AddWithValue("$IDENTIFICADOR", articulo.Identificador);
+            comando.Parameters.AddWithValue("$FACTURAID", facturaId);
+            comando.Parameters.AddWithValue("$NOMBRE", articulo.Nombre);
+            comando.Parameters.AddWithValue("$PRECIO", articulo.Precio);
+            comando.Parameters.AddWithValue("$CANTIDAD", articulo.Cantidad);
+
+            await comando.ExecuteNonQueryAsync();
+        }
+
+
+        private async Task AgregarArticulo(int facturaId, Articulo articulo)
+        {
+            string ruta = "facturas.db";
+            using var conexion = new SqliteConnection($"DataSource={ruta}");
+            await conexion.OpenAsync();
+
+            var comando = conexion.CreateCommand();
+            comando.CommandText = @"
+                INSERT INTO Articulos (Identificador, FacturaId, Nombre, Precio, Cantidad) 
+                VALUES ($IDENTIFICADOR, $FACTURAID, $NOMBRE, $PRECIO, $CANTIDAD)";
+
+            comando.Parameters.AddWithValue("$IDENTIFICADOR", articulo.Identificador);
+            comando.Parameters.AddWithValue("$FACTURAID", facturaId);
+            comando.Parameters.AddWithValue("$NOMBRE", articulo.Nombre);
+            comando.Parameters.AddWithValue("$PRECIO", articulo.Precio);
+            comando.Parameters.AddWithValue("$CANTIDAD", articulo.Cantidad);
+
+            await comando.ExecuteNonQueryAsync();
+        }
+        public async Task ActualizarFactura(Factura factura)
+        {
+            string ruta = "facturas.db";
+            using var conexion = new SqliteConnection($"DataSource={ruta}");
+            await conexion.OpenAsync();
+            var comando = conexion.CreateCommand();
+            comando.CommandText = @"
+                UPDATE Facturas 
+                SET Fecha = $FECHA, NombreCliente = $NOMBRECLIENTE 
+                WHERE Identificador = $IDENTIFICADOR";
+            comando.Parameters.AddWithValue("$FECHA", factura.Fecha.ToString("yyyy-MM-dd"));
+            comando.Parameters.AddWithValue("$NOMBRECLIENTE", factura.NombreCliente);
+            comando.Parameters.AddWithValue("$IDENTIFICADOR", factura.Identificador);
+
+            await comando.ExecuteNonQueryAsync();
+            
+           
         }
 
 
