@@ -178,5 +178,42 @@ else
     {
         facturaEditando = null;
     }
+    private void EditarArticulo(Factura factura, Articulo articulo)
+    {
+        facturaEditandoArticulo = factura;
+        articuloEditando = articulo;
+        nombreArticuloEditando = articulo.Nombre;
+        precioArticuloEditando = articulo.Precio;
+        cantidadArticuloEditando = articulo.Cantidad;
+    }
+
+    private async Task GuardarEdicionArticulo(int facturaId)
+    {
+        if (articuloEditando != null && !string.IsNullOrWhiteSpace(nombreArticuloEditando))
+        {
+            articuloEditando.Nombre = nombreArticuloEditando;
+            articuloEditando.Precio = precioArticuloEditando;
+            articuloEditando.Cantidad = cantidadArticuloEditando;
+
+            await FacturasControlador.ActualizarArticulo(facturaId, articuloEditando);
+            listaFacturas = await FacturasControlador.ObtenerFacturas();
+
+            articuloEditando = null;
+            facturaEditandoArticulo = null;
+            Console.WriteLine("Artículo actualizado");
+        }
+    }
+
+    private void CancelarEdicionArticulo()
+    {
+        articuloEditando = null;
+        facturaEditandoArticulo = null;
+    }
+
+    private async Task EliminarArticuloDeFactura(int facturaId, int articuloId)
+    {
+        await FacturasControlador.EliminarArticulo(facturaId, articuloId);
+        listaFacturas = await FacturasControlador.ObtenerFacturas();
+    }
 
 }
