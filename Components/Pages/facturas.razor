@@ -215,5 +215,28 @@ else
         await FacturasControlador.EliminarArticulo(facturaId, articuloId);
         listaFacturas = await FacturasControlador.ObtenerFacturas();
     }
+    private void MostrarFormularioAgregarArticulo(Factura factura)
+    {
+        facturaAgregandoArticulo = factura;
+        nuevoArticuloFactura = new Articulo { Cantidad = 1 };
+    }
+
+    private async Task GuardarNuevoArticulo(int facturaId)
+    {
+        if (!string.IsNullOrWhiteSpace(nuevoArticuloFactura.Nombre) && nuevoArticuloFactura.Precio > 0)
+        {
+            await FacturasControlador.AgregarArticuloAFacturaExistente(facturaId, nuevoArticuloFactura);
+            listaFacturas = await FacturasControlador.ObtenerFacturas();
+
+            facturaAgregandoArticulo = null;
+            nuevoArticuloFactura = new Articulo { Cantidad = 1 };
+        }
+    }
+
+    private void CancelarAgregarArticulo()
+    {
+        facturaAgregandoArticulo = null;
+        nuevoArticuloFactura = new Articulo { Cantidad = 1 };
+    }
 
 }
