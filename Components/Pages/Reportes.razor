@@ -8,24 +8,41 @@
 <div>
     <label>Seleccionar Año:</label>
     <input type="number" @bind="anioSeleccionado" placeholder="2024" min="2000" max="2100" />
-    <button @onclick="GenerarReporte">Generar Reporte</button>
+
+    <label style="margin-left: 15px;">Seleccionar Cliente:</label>
+    <select @bind="clienteSeleccionado">
+        <option value="">-- Todos los Clientes --</option>
+        @if (listaClientes.Any())
+        {
+            @foreach (var cliente in listaClientes)
+            {
+                <option value="@cliente">@cliente</option>
+            }
+        }
+    </select>
+    <button @onclick="GenerarReporte" style="margin-left: 15px;">Generar Reporte</button>
 </div>
 
 <hr />
 
 @if (reporteMostrado)
 {
-    <h4>Reporte del Año @anioSeleccionado</h4>
-
-    @if (reportePorMes.Any())
+    <h4>
+        Reporte del Año @anioSeleccionado
+        @if (!string.IsNullOrEmpty(clienteSeleccionado))
+        {
+            <span> para el cliente: <strong>@clienteSeleccionado</strong></span>
+        }
+    </h4>
+    @if (reportePorMes.Any(m => m.Facturas.Any()))
     {
         @foreach (var mes in reportePorMes.OrderBy(m => m.NumeroMes))
         {
-            <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 15px;">
-                <h5>@mes.NombreMes</h5>
+            @if (mes.Facturas.Any())
+            {
+                <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 15px;">
+                    <h5>@mes.NombreMes</h5>
 
-                @if (mes.Facturas.Any())
-                {
                     <ul>
                         @foreach (var factura in mes.Facturas)
                         {
@@ -38,24 +55,35 @@
                     </ul>
                     <p><strong>Total del mes: $@mes.TotalMes.ToString("F2")</strong></p>
                     <p>Número de facturas: @mes.Facturas.Count</p>
-                }
-                else
-                {
-                    <p>No hay facturas en este mes.</p>
-                }
-            </div>
+                </div>
+            }
         }
 
         <div style="border: 2px solid #000; padding: 15px; background-color: #f0f0f0;">
-            <h4>Total del Año @anioSeleccionado: $@totalAnual.ToString("F2")</h4>
+            <h4>
+                Total del Año @anioSeleccionado
+                @if (!string.IsNullOrEmpty(clienteSeleccionado))
+                {
+                    <span> (Cliente: @clienteSeleccionado)</span>
+                }
+                : $@totalAnual.ToString("F2")
+            </h4>
             <p>Total de facturas: @totalFacturas</p>
         </div>
     }
     else
     {
-        <p>No hay facturas registradas para el año @anioSeleccionado.</p>
+        <p>
+            No hay facturas registradas para el año @anioSeleccionado
+            @if (!string.IsNullOrEmpty(clienteSeleccionado))
+            {
+                <span> con el cliente @clienteSeleccionado</span>
+            }
+            .
+        </p>
     }
 }
+<a href="Facturas">Facturas</a>
 
 @code {
     private int anioSeleccionado = DateTime.Now.Year;
@@ -64,14 +92,46 @@
     private decimal totalAnual = 0;
     private int totalFacturas = 0;
 
+    
+    private string clienteSeleccionado = "";
+    private List<string> listaClientes = new();
+   
+
+    
+    protected override async Task OnInitializedAsync()
+    {
+        var todasLasFacturas = await FacturasControlador.ObtenerFacturas();
+        if (todasLasFacturas != null)
+        {
+            listaClientes = todasLasFacturas
+                .Select(f => f.NombreCliente)
+                .Distinct()
+                .OrderBy(nombre => nombre)
+                .ToList();
+        }
+    }
+   
+
     private async Task GenerarReporte()
     {
         var todasLasFacturas = await FacturasControlador.ObtenerFacturas();
 
-        var facturasDelAnio = todasLasFacturas
+       
+        IEnumerable<Factura> facturasFiltradas = todasLasFacturas;
+
+     
+        if (!string.IsNullOrEmpty(clienteSeleccionado))
+        {
+            facturasFiltradas = facturasFiltradas
+                .Where(f => f.NombreCliente == clienteSeleccionado);
+        }
+
+ 
+        var facturasDelAnio = facturasFiltradas
             .Where(f => f.Fecha.Year == anioSeleccionado)
             .ToList();
-
+      
+ 
         reportePorMes.Clear();
 
         for (int mes = 1; mes <= 12; mes++)
