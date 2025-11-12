@@ -58,31 +58,84 @@
     <button @onclick="GuardarFactura">Guardar Factura</button>
 </div>
 
+<hr />
 
 <h4>Facturas Registradas</h4>
 
-
-
 @if (listaFacturas.Any())
 {
-    <ul> 
+    <ul>
         @foreach (var factura in listaFacturas)
         {
             <li>
-                <strong>Factura #@factura.Identificador</strong> - @factura.Fecha.ToString("dd/MM/yyyy") - Cliente: @factura.NombreCliente
-                <button @onclick="() => EliminarFactura(factura.Identificador)">Eliminar</button>
-                <ul>  
+                @if (facturaEditando?.Identificador == factura.Identificador)
+                {
+                    <strong>Editando Factura #@factura.Identificador</strong>
+                    <br />
+                    <label>Fecha:</label>
+                    <input type="date" @bind="fechaEditando" @bind:format="yyyy-MM-dd" />
+                    <label>Cliente:</label>
+                    <input type="text" @bind="clienteEditando" />
+                    <button @onclick="GuardarEdicionFactura">Guardar</button>
+                    <button @onclick="CancelarEdicionFactura">Cancelar</button>
+                }
+                else
+                {
+                    <span>
+                        <strong>Factura #@factura.Identificador</strong>
+                        @factura.Fecha.ToString("dd/MM/yyyy")
+                        Cliente: @factura.NombreCliente
+                    </span>
+                    <button @onclick="@(() => EditarFactura(factura))">Editar</button>
+                    <button @onclick="@(() => EliminarFactura(factura.Identificador))">Eliminar</button>
+                }
+
+                <ul>
                     @foreach (var art in factura.Articulos)
                     {
                         <li>
-                            @art.Nombre - Precio: $@art.Precio.ToString("F2") - Cantidad: @art.Cantidad - Subtotal: $@art.Subtotal.ToString("F2")
+                            @if (articuloEditando?.Identificador == art.Identificador && facturaEditandoArticulo?.Identificador == factura.Identificador)
+                            {
+                                <input type="text" @bind="nombreArticuloEditando" placeholder="Nombre" />
+                                <input type="number" @bind="precioArticuloEditando" step="0.01" placeholder="Precio" />
+                                <input type="number" @bind="cantidadArticuloEditando" placeholder="Cantidad" />
+                                <button @onclick="@(() => GuardarEdicionArticulo(factura.Identificador))">Guardar</button>
+                                <button @onclick="CancelarEdicionArticulo">Cancelar</button>
+                            }
+                            else
+                            {
+                                <span>
+                                    @art.Nombre
+                                    Precio: $@art.Precio.ToString("F2")
+                                    Cantidad: @art.Cantidad
+                                    Subtotal: $@art.Subtotal.ToString("F2")
+                                </span>
+                                <button @onclick="@(() => EditarArticulo(factura, art))">Editar</button>
+                                <button @onclick="@(() => EliminarArticuloDeFactura(factura.Identificador, art.Identificador))">Eliminar</button>
+                            }
                         </li>
                     }
                     <li><strong>Total: $@factura.Total.ToString("F2")</strong></li>
-                </ul> 
+                </ul>
+
+                @if (facturaAgregandoArticulo?.Identificador == factura.Identificador)
+                {
+                    <div>
+                        Agregar artículo:
+                        <input type="text" @bind="nuevoArticuloFactura.Nombre" placeholder="Nombre" />
+                        <input type="number" @bind="nuevoArticuloFactura.Precio" step="0.01" placeholder="Precio" />
+                        <input type="number" @bind="nuevoArticuloFactura.Cantidad" placeholder="Cantidad" />
+                        <button @onclick="@(() => GuardarNuevoArticulo(factura.Identificador))">Agregar</button>
+                        <button @onclick="CancelarAgregarArticulo">Cancelar</button>
+                    </div>
+                }
+                else
+                {
+                    <button @onclick="@(() => MostrarFormularioAgregarArticulo(factura))">+ Agregar Artículo</button>
+                }
             </li>
         }
-    </ul> 
+    </ul>
 }
 else
 {
@@ -93,21 +146,20 @@ else
     private List<Factura> listaFacturas = new();
     private Factura nuevaFactura = new() { Fecha = DateTime.Now };
     private Articulo nuevoArticulo = new() { Cantidad = 1 };
-  
+
     private Factura? facturaEditando = null;
     private DateTime fechaEditando;
     private string clienteEditando = "";
 
-    
     private Articulo? articuloEditando = null;
     private Factura? facturaEditandoArticulo = null;
     private string nombreArticuloEditando = "";
     private decimal precioArticuloEditando = 0;
     private int cantidadArticuloEditando = 0;
 
-   
     private Factura? facturaAgregandoArticulo = null;
     private Articulo nuevoArticuloFactura = new() { Cantidad = 1 };
+
     protected override async Task OnInitializedAsync()
     {
         listaFacturas = await FacturasControlador.ObtenerFacturas();
@@ -150,9 +202,9 @@ else
     {
         await FacturasControlador.EliminarFactura(identificador);
         listaFacturas = await FacturasControlador.ObtenerFacturas();
-
         Console.WriteLine($"Factura {identificador} eliminada");
     }
+
     private void EditarFactura(Factura factura)
     {
         facturaEditando = factura;
@@ -174,10 +226,12 @@ else
             Console.WriteLine("Factura actualizada");
         }
     }
-    private async Task CancelarEdicionFactura()
+
+    private void CancelarEdicionFactura()
     {
         facturaEditando = null;
     }
+
     private void EditarArticulo(Factura factura, Articulo articulo)
     {
         facturaEditandoArticulo = factura;
@@ -215,6 +269,7 @@ else
         await FacturasControlador.EliminarArticulo(facturaId, articuloId);
         listaFacturas = await FacturasControlador.ObtenerFacturas();
     }
+
     private void MostrarFormularioAgregarArticulo(Factura factura)
     {
         facturaAgregandoArticulo = factura;
@@ -238,5 +293,4 @@ else
         facturaAgregandoArticulo = null;
         nuevoArticuloFactura = new Articulo { Cantidad = 1 };
     }
-
-}
+}                       
