@@ -1,2 +1,0 @@
-wwwroot\app.css
-C:\Users\M8-MQ23-H\Desktop\hombreymujerfacturan\wwwroot\app.css
