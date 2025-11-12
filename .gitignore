@@ -1,0 +1,16 @@
+# Base de datos
+*.db
+facturas.db
+
+# Carpetas de compilación
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Archivos temporales
+*.cache
+*.log

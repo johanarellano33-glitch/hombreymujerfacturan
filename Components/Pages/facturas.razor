@@ -1,4 +1,4 @@
-﻿@page "/facturas"
+﻿@page "/Facturas"
 @using blazorfactura.Components.Data
 @inject Servicios.ServicioControlador FacturasControlador
 @inject IJSRuntime JSRuntime
@@ -93,7 +93,21 @@ else
     private List<Factura> listaFacturas = new();
     private Factura nuevaFactura = new() { Fecha = DateTime.Now };
     private Articulo nuevoArticulo = new() { Cantidad = 1 };
+  
+    private Factura? facturaEditando = null;
+    private DateTime fechaEditando;
+    private string clienteEditando = "";
 
+    
+    private Articulo? articuloEditando = null;
+    private Factura? facturaEditandoArticulo = null;
+    private string nombreArticuloEditando = "";
+    private decimal precioArticuloEditando = 0;
+    private int cantidadArticuloEditando = 0;
+
+   
+    private Factura? facturaAgregandoArticulo = null;
+    private Articulo nuevoArticuloFactura = new() { Cantidad = 1 };
     protected override async Task OnInitializedAsync()
     {
         listaFacturas = await FacturasControlador.ObtenerFacturas();
@@ -139,4 +153,90 @@ else
 
         Console.WriteLine($"Factura {identificador} eliminada");
     }
+    private void EditarFactura(Factura factura)
+    {
+        facturaEditando = factura;
+        fechaEditando = factura.Fecha;
+        clienteEditando = factura.NombreCliente;
+    }
+
+    private async Task GuardarEdicionFactura()
+    {
+        if (facturaEditando != null && !string.IsNullOrWhiteSpace(clienteEditando))
+        {
+            facturaEditando.Fecha = fechaEditando;
+            facturaEditando.NombreCliente = clienteEditando;
+
+            await FacturasControlador.ActualizarFactura(facturaEditando);
+            listaFacturas = await FacturasControlador.ObtenerFacturas();
+
+            facturaEditando = null;
+            Console.WriteLine("Factura actualizada");
+        }
+    }
+    private async Task CancelarEdicionFactura()
+    {
+        facturaEditando = null;
+    }
+    private void EditarArticulo(Factura factura, Articulo articulo)
+    {
+        facturaEditandoArticulo = factura;
+        articuloEditando = articulo;
+        nombreArticuloEditando = articulo.Nombre;
+        precioArticuloEditando = articulo.Precio;
+        cantidadArticuloEditando = articulo.Cantidad;
+    }
+
+    private async Task GuardarEdicionArticulo(int facturaId)
+    {
+        if (articuloEditando != null && !string.IsNullOrWhiteSpace(nombreArticuloEditando))
+        {
+            articuloEditando.Nombre = nombreArticuloEditando;
+            articuloEditando.Precio = precioArticuloEditando;
+            articuloEditando.Cantidad = cantidadArticuloEditando;
+
+            await FacturasControlador.ActualizarArticulo(facturaId, articuloEditando);
+            listaFacturas = await FacturasControlador.ObtenerFacturas();
+
+            articuloEditando = null;
+            facturaEditandoArticulo = null;
+            Console.WriteLine("Artículo actualizado");
+        }
+    }
+
+    private void CancelarEdicionArticulo()
+    {
+        articuloEditando = null;
+        facturaEditandoArticulo = null;
+    }
+
+    private async Task EliminarArticuloDeFactura(int facturaId, int articuloId)
+    {
+        await FacturasControlador.EliminarArticulo(facturaId, articuloId);
+        listaFacturas = await FacturasControlador.ObtenerFacturas();
+    }
+    private void MostrarFormularioAgregarArticulo(Factura factura)
+    {
+        facturaAgregandoArticulo = factura;
+        nuevoArticuloFactura = new Articulo { Cantidad = 1 };
+    }
+
+    private async Task GuardarNuevoArticulo(int facturaId)
+    {
+        if (!string.IsNullOrWhiteSpace(nuevoArticuloFactura.Nombre) && nuevoArticuloFactura.Precio > 0)
+        {
+            await FacturasControlador.AgregarArticuloAFacturaExistente(facturaId, nuevoArticuloFactura);
+            listaFacturas = await FacturasControlador.ObtenerFacturas();
+
+            facturaAgregandoArticulo = null;
+            nuevoArticuloFactura = new Articulo { Cantidad = 1 };
+        }
+    }
+
+    private void CancelarAgregarArticulo()
+    {
+        facturaAgregandoArticulo = null;
+        nuevoArticuloFactura = new Articulo { Cantidad = 1 };
+    }
+
 }

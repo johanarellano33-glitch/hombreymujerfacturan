@@ -145,5 +145,45 @@ namespace blazorfactura.Components.Data
 
             await comando.ExecuteNonQueryAsync();
         }
+        public async Task EliminarArticulo(int facturaId, int articuloId)
+        {
+            string ruta = "facturas.db";
+            using var conexion = new SqliteConnection($"DataSource={ruta}");
+            await conexion.OpenAsync();
+
+            var comando = conexion.CreateCommand();
+            comando.CommandText = @"
+        DELETE FROM Articulos 
+        WHERE FacturaId=$FACTURAID AND Identificador=$ARTICULOID";
+            comando.Parameters.AddWithValue("$FACTURAID", facturaId);
+            comando.Parameters.AddWithValue("$ARTICULOID", articuloId);
+            await comando.ExecuteNonQueryAsync();
+        }
+
+        public async Task ActualizarArticulo(int facturaId, Articulo articulo)
+        {
+            string ruta = "facturas.db";
+            using var conexion = new SqliteConnection($"DataSource={ruta}");
+            await conexion.OpenAsync();
+
+            var comando = conexion.CreateCommand();
+            comando.CommandText = @"
+        UPDATE Articulos 
+        SET Nombre=$NOMBRE, Precio=$PRECIO, Cantidad=$CANTIDAD 
+        WHERE FacturaId=$FACTURAID AND Identificador=$ARTICULOID";
+
+            comando.Parameters.AddWithValue("$FACTURAID", facturaId);
+            comando.Parameters.AddWithValue("$ARTICULOID", articulo.Identificador);
+            comando.Parameters.AddWithValue("$NOMBRE", articulo.Nombre);
+            comando.Parameters.AddWithValue("$PRECIO", articulo.Precio);
+            comando.Parameters.AddWithValue("$CANTIDAD", articulo.Cantidad);
+
+            await comando.ExecuteNonQueryAsync();
+        }
+
+        public async Task AgregarArticuloAFacturaExistente(int facturaId, Articulo articulo)
+        {
+            await AgregarArticulo(facturaId, articulo);
+        }
     }
 }
