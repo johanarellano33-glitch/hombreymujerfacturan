@@ -39,7 +39,6 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-<<<<<<< HEAD
               "Title": "facturas.razor",
               "DocumentMoniker": "C:\\Users\\M8-MQ23-H\\Desktop\\hombreymujerfacturan\\Components\\Pages\\facturas.razor",
               "RelativeDocumentMoniker": "Components\\Pages\\facturas.razor",
@@ -49,18 +48,6 @@
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-11-06T21:56:46.216Z",
               "IsPinned": true
-=======
-              "Title": "Facturas.razor",
-              "DocumentMoniker": "C:\\Users\\M8-MQ23-H\\Desktop\\hombreymujerfacturan\\Components\\Pages\\Facturas.razor",
-              "RelativeDocumentMoniker": "Components\\Pages\\Facturas.razor",
-              "ToolTip": "C:\\Users\\M8-MQ23-H\\Desktop\\hombreymujerfacturan\\Components\\Pages\\Facturas.razor",
-              "RelativeToolTip": "Components\\Pages\\Facturas.razor",
-              "ViewState": "AgIAAMAAAAAAAAAAAAAowPEAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-11-06T21:56:46.216Z",
-              "IsPinned": true,
-              "EditorCaption": ""
->>>>>>> crud
             },
             {
               "$type": "Document",
@@ -92,15 +79,9 @@
               "Title": "ServicioFacturas.cs",
               "DocumentMoniker": "C:\\Users\\M8-MQ23-H\\Desktop\\hombreymujerfacturan\\Components\\Data\\ServicioFacturas.cs",
               "RelativeDocumentMoniker": "Components\\Data\\ServicioFacturas.cs",
-<<<<<<< HEAD
               "ToolTip": "C:\\Users\\M8-MQ23-H\\Desktop\\hombreymujerfacturan\\Components\\Data\\ServicioFacturas.cs",
               "RelativeToolTip": "Components\\Data\\ServicioFacturas.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAEgAAAAzAAAAAAAAAA==",
-=======
-              "ToolTip": "C:\\Users\\M8-MQ23-H\\Desktop\\hombreymujerfacturan\\Components\\Data\\ServicioFacturas.cs*",
-              "RelativeToolTip": "Components\\Data\\ServicioFacturas.cs*",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEgAAAA0AAAAAAAAAA==",
->>>>>>> crud
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-05T20:40:15.176Z",
               "EditorCaption": ""

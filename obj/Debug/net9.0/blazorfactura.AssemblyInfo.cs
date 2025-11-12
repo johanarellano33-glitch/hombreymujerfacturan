@@ -14,11 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("blazorfactura")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-<<<<<<< HEAD
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a9d8e07bc6c3768013e85db5dbb40e40f2ff4f53")]
-=======
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+19ff4798ad740118adeefa1e9f085c2dcea5c8d4")]
->>>>>>> crud
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+88828d63d9acc021a1579cc2fc89b5981882e389")]
 [assembly: System.Reflection.AssemblyProductAttribute("blazorfactura")]
 [assembly: System.Reflection.AssemblyTitleAttribute("blazorfactura")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
