@@ -2,6 +2,7 @@
 @using blazorfactura.Components.Data
 @inject Servicios.ServicioControlador FacturasControlador
 @rendermode InteractiveServer
+@inject IJSRuntime JSRuntime
 
 <h3>Reportes de Facturas</h3>
 
@@ -114,24 +115,14 @@
 
     private async Task GenerarReporte()
     {
+        await JSRuntime.InvokeVoidAsync("localStorage.setItem", "reporte_anio", anioSeleccionado.ToString());
+
         var todasLasFacturas = await FacturasControlador.ObtenerFacturas();
 
-       
-        IEnumerable<Factura> facturasFiltradas = todasLasFacturas;
-
-     
-        if (!string.IsNullOrEmpty(clienteSeleccionado))
-        {
-            facturasFiltradas = facturasFiltradas
-                .Where(f => f.NombreCliente == clienteSeleccionado);
-        }
-
- 
-        var facturasDelAnio = facturasFiltradas
+        var facturasDelAnio = todasLasFacturas
             .Where(f => f.Fecha.Year == anioSeleccionado)
             .ToList();
-      
- 
+
         reportePorMes.Clear();
 
         for (int mes = 1; mes <= 12; mes++)
@@ -153,6 +144,7 @@
         totalFacturas = facturasDelAnio.Count;
         reporteMostrado = true;
     }
+    
 
     private string ObtenerNombreMes(int mes)
     {
