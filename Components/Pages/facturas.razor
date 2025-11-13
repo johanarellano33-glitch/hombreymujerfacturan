@@ -10,29 +10,29 @@
 
 <div>
     <label>Fecha:</label>
-    <input type="date" @bind="nuevaFactura.Fecha" @bind:format="yyyy-MM-dd" />
+    <input type="date" value="@nuevaFactura.Fecha.ToString("yyyy-MM-dd")" @onchange="@(async (e) => { nuevaFactura.Fecha = DateTime.Parse(e.Value.ToString()); await GuardarDatosFormulario(); })" />
 </div>
 
 <div>
     <label>Nombre del Cliente:</label>
-    <input type="text" @bind="nuevaFactura.NombreCliente" placeholder="Nombre del cliente" />
+    <input type="text" value="@nuevaFactura.NombreCliente" @onchange="@(async (e) => { nuevaFactura.NombreCliente = e.Value.ToString(); await GuardarDatosFormulario(); })" placeholder="Nombre del cliente" />
 </div>
 
 <h5>Agregar Artículos</h5>
 
 <div>
     <label>Nombre del artículo:</label>
-    <input type="text" @bind="nuevoArticulo.Nombre" placeholder="Nombre del artículo" />
+    <input type="text" value="@nuevoArticulo.Nombre" @onchange="@(async (e) => { nuevoArticulo.Nombre = e.Value.ToString(); await GuardarDatosFormulario(); })" placeholder="Nombre del artículo" />
 </div>
 
 <div>
     <label>Precio:</label>
-    <input type="number" @bind="nuevoArticulo.Precio" placeholder="Precio" step="0.01" />
+    <input type="number" value="@nuevoArticulo.Precio" @onchange="@(async (e) => { if (decimal.TryParse(e.Value.ToString(), out var precio)) { nuevoArticulo.Precio = precio; await GuardarDatosFormulario(); } })" placeholder="Precio" step="0.01" />
 </div>
 
 <div>
     <label>Cantidad:</label>
-    <input type="number" @bind="nuevoArticulo.Cantidad" placeholder="Cantidad" />
+    <input type="number" value="@nuevoArticulo.Cantidad" @onchange="@(async (e) => { if (int.TryParse(e.Value.ToString(), out var cantidad)) { nuevoArticulo.Cantidad = cantidad; await GuardarDatosFormulario(); } })" placeholder="Cantidad" />
 </div>
 
 <div>
