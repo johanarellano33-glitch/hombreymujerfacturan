@@ -181,4 +181,28 @@
         public List<Factura> Facturas { get; set; } = new();
         public decimal TotalMes { get; set; }
     }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await CargarAnioSeleccionado();
+            StateHasChanged();
+        }
+    }
+
+    private async Task CargarAnioSeleccionado()
+    {
+        try
+        {
+            var anioStr = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "reporte_anio");
+            if (!string.IsNullOrEmpty(anioStr))
+            {
+                anioSeleccionado = int.Parse(anioStr);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error cargando año: {ex.Message}");
+        }
+    }
 }
