@@ -392,3 +392,9 @@ node_modules/
 # Ignorar compilaciones
 dist/
 build/
+# Archivos de compilación y temporales
+bin/
+obj/
+*.user
+*.suo
+*.cache
