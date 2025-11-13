@@ -293,4 +293,73 @@ else
         facturaAgregandoArticulo = null;
         nuevoArticuloFactura = new Articulo { Cantidad = 1 };
     }
+   
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await CargarDatosFormulario();
+            StateHasChanged();
+        }
+    }
+
+    private async Task CargarDatosFormulario()
+    {
+        try
+        {
+      
+            var fechaStr = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "nuevaFactura_Fecha");
+            if (!string.IsNullOrEmpty(fechaStr))
+            {
+                nuevaFactura.Fecha = DateTime.Parse(fechaStr);
+            }
+
+          
+            var cliente = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "nuevaFactura_Cliente");
+            if (!string.IsNullOrEmpty(cliente))
+            {
+                nuevaFactura.NombreCliente = cliente;
+            }
+
+   
+            var nombreArt = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "nuevoArticulo_Nombre");
+            if (!string.IsNullOrEmpty(nombreArt))
+            {
+                nuevoArticulo.Nombre = nombreArt;
+            }
+
+            var precioStr = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "nuevoArticulo_Precio");
+            if (!string.IsNullOrEmpty(precioStr))
+            {
+                nuevoArticulo.Precio = decimal.Parse(precioStr);
+            }
+
+            var cantidadStr = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "nuevoArticulo_Cantidad");
+            if (!string.IsNullOrEmpty(cantidadStr))
+            {
+                nuevoArticulo.Cantidad = int.Parse(cantidadStr);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error cargando datos: {ex.Message}");
+        }
+    }
+
+    private async Task GuardarDatosFormulario()
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("localStorage.setItem", "nuevaFactura_Fecha", nuevaFactura.Fecha.ToString("yyyy-MM-dd"));
+            await JSRuntime.InvokeVoidAsync("localStorage.setItem", "nuevaFactura_Cliente", nuevaFactura.NombreCliente ?? "");
+            await JSRuntime.InvokeVoidAsync("localStorage.setItem", "nuevoArticulo_Nombre", nuevoArticulo.Nombre ?? "");
+            await JSRuntime.InvokeVoidAsync("localStorage.setItem", "nuevoArticulo_Precio", nuevoArticulo.Precio.ToString());
+            await JSRuntime.InvokeVoidAsync("localStorage.setItem", "nuevoArticulo_Cantidad", nuevoArticulo.Cantidad.ToString());
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error guardando datos: {ex.Message}");
+        }
+    }
 }                       
