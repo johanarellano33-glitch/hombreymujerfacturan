@@ -2,6 +2,7 @@
 @using blazorfactura.Components.Data
 @inject Servicios.ServicioControlador FacturasControlador
 @rendermode InteractiveServer
+@inject IJSRuntime JSRuntime
 
 <h3>Reportes de Facturas</h3>
 
@@ -31,7 +32,7 @@
         Reporte del Año @anioSeleccionado
         @if (!string.IsNullOrEmpty(clienteSeleccionado))
         {
-            <span> para el cliente: <strong>@clienteSeleccionado</strong></span>
+           
         }
     </h4>
     @if (reportePorMes.Any(m => m.Facturas.Any()))
@@ -114,24 +115,14 @@
 
     private async Task GenerarReporte()
     {
+        await JSRuntime.InvokeVoidAsync("localStorage.setItem", "reporte_anio", anioSeleccionado.ToString());
+
         var todasLasFacturas = await FacturasControlador.ObtenerFacturas();
 
-       
-        IEnumerable<Factura> facturasFiltradas = todasLasFacturas;
-
-     
-        if (!string.IsNullOrEmpty(clienteSeleccionado))
-        {
-            facturasFiltradas = facturasFiltradas
-                .Where(f => f.NombreCliente == clienteSeleccionado);
-        }
-
- 
-        var facturasDelAnio = facturasFiltradas
+        var facturasDelAnio = todasLasFacturas
             .Where(f => f.Fecha.Year == anioSeleccionado)
             .ToList();
-      
- 
+
         reportePorMes.Clear();
 
         for (int mes = 1; mes <= 12; mes++)
@@ -153,6 +144,7 @@
         totalFacturas = facturasDelAnio.Count;
         reporteMostrado = true;
     }
+    
 
     private string ObtenerNombreMes(int mes)
     {
@@ -180,5 +172,29 @@
         public string NombreMes { get; set; } = "";
         public List<Factura> Facturas { get; set; } = new();
         public decimal TotalMes { get; set; }
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await CargarAnioSeleccionado();
+            StateHasChanged();
+        }
+    }
+
+    private async Task CargarAnioSeleccionado()
+    {
+        try
+        {
+            var anioStr = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "reporte_anio");
+            if (!string.IsNullOrEmpty(anioStr))
+            {
+                anioSeleccionado = int.Parse(anioStr);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error cargando año: {ex.Message}");
+        }
     }
 }
