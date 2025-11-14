@@ -1,13 +1,17 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\M8-MQ23-H\\Desktop\\blazorfactura\\",
+  "WorkspaceRootPath": "C:\\Users\\short\\Desktop\\hombreymujerfacturan\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C32FE5F1-C8CF-FD3A-09DB-4ABFB1E1F558}|blazorfactura.csproj|c:\\users\\m8-mq23-h\\desktop\\blazorfactura\\components\\data\\factura.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{C32FE5F1-C8CF-FD3A-09DB-4ABFB1E1F558}|blazorfactura.csproj|c:\\users\\short\\desktop\\hombreymujerfacturan\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C32FE5F1-C8CF-FD3A-09DB-4ABFB1E1F558}|blazorfactura.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C32FE5F1-C8CF-FD3A-09DB-4ABFB1E1F558}|blazorfactura.csproj|c:\\users\\short\\desktop\\hombreymujerfacturan\\components\\data\\factura.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C32FE5F1-C8CF-FD3A-09DB-4ABFB1E1F558}|blazorfactura.csproj|solutionrelative:components\\data\\factura.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C32FE5F1-C8CF-FD3A-09DB-4ABFB1E1F558}|blazorfactura.csproj|c:\\users\\m8-mq23-h\\desktop\\blazorfactura\\components\\data\\articulo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{C32FE5F1-C8CF-FD3A-09DB-4ABFB1E1F558}|blazorfactura.csproj|c:\\users\\short\\desktop\\hombreymujerfacturan\\components\\data\\articulo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C32FE5F1-C8CF-FD3A-09DB-4ABFB1E1F558}|blazorfactura.csproj|solutionrelative:components\\data\\articulo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -23,27 +27,40 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Factura.cs",
-              "DocumentMoniker": "C:\\Users\\M8-MQ23-H\\Desktop\\blazorfactura\\Components\\Data\\Factura.cs",
-              "RelativeDocumentMoniker": "Components\\Data\\Factura.cs",
-              "ToolTip": "C:\\Users\\M8-MQ23-H\\Desktop\\blazorfactura\\Components\\Data\\Factura.cs",
-              "RelativeToolTip": "Components\\Data\\Factura.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\short\\Desktop\\hombreymujerfacturan\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\short\\Desktop\\hombreymujerfacturan\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-05T20:30:42.805Z",
+              "WhenOpened": "2025-11-14T19:07:11.8Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "Factura.cs",
+              "DocumentMoniker": "C:\\Users\\short\\Desktop\\hombreymujerfacturan\\Components\\Data\\Factura.cs",
+              "RelativeDocumentMoniker": "Components\\Data\\Factura.cs",
+              "ToolTip": "C:\\Users\\short\\Desktop\\hombreymujerfacturan\\Components\\Data\\Factura.cs",
+              "RelativeToolTip": "Components\\Data\\Factura.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-14T19:06:53.069Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "Articulo.cs",
-              "DocumentMoniker": "C:\\Users\\M8-MQ23-H\\Desktop\\blazorfactura\\Components\\Data\\Articulo.cs",
+              "DocumentMoniker": "C:\\Users\\short\\Desktop\\hombreymujerfacturan\\Components\\Data\\Articulo.cs",
               "RelativeDocumentMoniker": "Components\\Data\\Articulo.cs",
-              "ToolTip": "C:\\Users\\M8-MQ23-H\\Desktop\\blazorfactura\\Components\\Data\\Articulo.cs",
+              "ToolTip": "C:\\Users\\short\\Desktop\\hombreymujerfacturan\\Components\\Data\\Articulo.cs",
               "RelativeToolTip": "Components\\Data\\Articulo.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-05T20:30:20.83Z",
+              "WhenOpened": "2025-11-14T19:06:47.474Z",
               "EditorCaption": ""
             }
           ]

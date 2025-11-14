@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\M8-MQ23-H\\Desktop\\blazorfactura\\blazorfactura.csproj": {}
+    "C:\\Users\\short\\Desktop\\hombreymujerfacturan\\blazorfactura.csproj": {}
   },
   "projects": {
-    "C:\\Users\\M8-MQ23-H\\Desktop\\blazorfactura\\blazorfactura.csproj": {
+    "C:\\Users\\short\\Desktop\\hombreymujerfacturan\\blazorfactura.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\M8-MQ23-H\\Desktop\\blazorfactura\\blazorfactura.csproj",
+        "projectUniqueName": "C:\\Users\\short\\Desktop\\hombreymujerfacturan\\blazorfactura.csproj",
         "projectName": "blazorfactura",
-        "projectPath": "C:\\Users\\M8-MQ23-H\\Desktop\\blazorfactura\\blazorfactura.csproj",
-        "packagesPath": "C:\\Users\\M8-MQ23-H\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\M8-MQ23-H\\Desktop\\blazorfactura\\obj\\",
+        "projectPath": "C:\\Users\\short\\Desktop\\hombreymujerfacturan\\blazorfactura.csproj",
+        "packagesPath": "C:\\Users\\short\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\short\\Desktop\\hombreymujerfacturan\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\M8-MQ23-H\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\short\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
