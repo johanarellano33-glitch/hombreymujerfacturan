@@ -392,3 +392,16 @@ node_modules/
 # Ignorar compilaciones
 dist/
 build/
+# Carpetas de compilación
+bin/
+obj/
+
+# Base de datos
+*.db
+*.db-shm
+*.db-wal
+
+# Visual Studio
+.vs/
+*.suo
+*.user
