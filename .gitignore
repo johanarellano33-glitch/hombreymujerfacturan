@@ -392,6 +392,7 @@ node_modules/
 # Ignorar compilaciones
 dist/
 build/
+<<<<<<< HEAD
 # Carpetas de compilación
 bin/
 obj/
@@ -405,3 +406,11 @@ obj/
 .vs/
 *.suo
 *.user
+=======
+# Archivos de compilación y temporales
+bin/
+obj/
+*.user
+*.suo
+*.cache
+>>>>>>> reportes
