@@ -3,77 +3,152 @@
 @inject blazorfactura.Components.Servicios.ServicioControlador Controlador
 @rendermode InteractiveServer
 
-<h3>📊 Tablero de Control (Dashboard)</h3>
-<p>Inteligencia de negocios basada en las facturas registradas.</p>
+<h3 class="mb-4">📊 Tablero de Inteligencia</h3>
+<p class="text-muted">Haz clic en una pregunta para ver la respuesta.</p>
 
 @if (cargando)
 {
-    <p><em>Analizando datos...</em></p>
+    <div class="alert alert-info">Cargando datos...</div>
 }
 else
 {
-    <div class="row mb-4">
-        <div class="col-md-6">
-            <div class="card text-white bg-success mb-3">
-                <div class="card-header">💰 Ingresos Totales</div>
-                <div class="card-body">
-                    <h2 class="card-title">$@datos.IngresosTotales.ToString("F2")</h2>
-                    <p class="card-text">Suma total de todas las ventas históricas.</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card text-white bg-info mb-3">
-                <div class="card-header">🎫 Ticket Promedio</div>
-                <div class="card-body">
-                    <h2 class="card-title">$@datos.TicketPromedio.ToString("F2")</h2>
-                    <p class="card-text">Promedio de venta por cada factura emitida.</p>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div class="accordion" id="dashboardAccordion">
 
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card border-primary mb-3" style="height: 100%;">
-                <div class="card-header bg-primary text-white">🏆 Producto Estrella</div>
-                <div class="card-body">
-                    <h4 class="card-title">@datos.ProductoMasVendido</h4>
-                    <p class="card-text text-muted">El artículo con mayor cantidad de unidades vendidas.</p>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button @(idAbierto == 1 ? "" : "collapsed")"
+                        type="button"
+                        @onclick="() => Alternar(1)">
+                    <strong>📦 ¿Cuál ha sido el artículo más vendido?</strong>
+                </button>
+            </h2>
+            <div class="accordion-collapse collapse @(idAbierto == 1 ? "show" : "")"
+                 style="@(idAbierto == 1 ? "display:block" : "display:none")">
+                <div class="accordion-body">
+                    <div class="card text-white bg-primary">
+                        <div class="card-body">
+                            <h2 class="card-title">@datos.ProductoMasVendido</h2>
+                            <p class="card-text">Es el producto con más unidades vendidas.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="card border-warning mb-3" style="height: 100%;">
-                <div class="card-header bg-warning text-dark">📅 Mejor Temporada</div>
-                <div class="card-body">
-                    <h4 class="card-title">@datos.MesMejorVenta</h4>
-                    <p class="card-text text-muted">El mes donde se ha registrado el mayor ingreso económico.</p>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button @(idAbierto == 2 ? "" : "collapsed")"
+                        type="button"
+                        @onclick="() => Alternar(2)">
+                    <strong>📅 ¿En cuál mes se vende más?</strong>
+                </button>
+            </h2>
+            <div class="accordion-collapse collapse @(idAbierto == 2 ? "show" : "")"
+                 style="@(idAbierto == 2 ? "display:block" : "display:none")">
+                <div class="accordion-body">
+                    <div class="card text-dark bg-warning">
+                        <div class="card-body">
+                            <h2 class="card-title">@datos.MesMejorVenta</h2>
+                            <p class="card-text">Es tu temporada más fuerte del año.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="card border-danger mb-3" style="height: 100%;">
-                <div class="card-header bg-danger text-white">🤝 Cliente VIP</div>
-                <div class="card-body">
-                    <h4 class="card-title">@datos.ClienteVip</h4>
-                    <p class="card-text text-muted">El cliente que ha generado más ganancias para la empresa.</p>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button @(idAbierto == 3 ? "" : "collapsed")"
+                        type="button"
+                        @onclick="() => Alternar(3)">
+                    <strong>🤝 ¿Quién es nuestro mejor cliente?</strong>
+                </button>
+            </h2>
+            <div class="accordion-collapse collapse @(idAbierto == 3 ? "show" : "")"
+                 style="@(idAbierto == 3 ? "display:block" : "display:none")">
+                <div class="accordion-body">
+                    <div class="card text-white bg-danger">
+                        <div class="card-body">
+                            <h2 class="card-title">@datos.ClienteVip</h2>
+                            <p class="card-text">Es quien más ha invertido en tu negocio.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button @(idAbierto == 4 ? "" : "collapsed")"
+                        type="button"
+                        @onclick="() => Alternar(4)">
+                    <strong>💰 ¿A cuánto ascienden los ingresos totales?</strong>
+                </button>
+            </h2>
+            <div class="accordion-collapse collapse @(idAbierto == 4 ? "show" : "")"
+                 style="@(idAbierto == 4 ? "display:block" : "display:none")">
+                <div class="accordion-body">
+                    <div class="card text-white bg-success">
+                        <div class="card-body">
+                            <h2 class="card-title">$@datos.IngresosTotales.ToString("N2")</h2>
+                            <p class="card-text">Total histórico facturado.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button @(idAbierto == 5 ? "" : "collapsed")"
+                        type="button"
+                        @onclick="() => Alternar(5)">
+                    <strong>🛒 ¿Cuánto gasta un cliente promedio?</strong>
+                </button>
+            </h2>
+            <div class="accordion-collapse collapse @(idAbierto == 5 ? "show" : "")"
+                 style="@(idAbierto == 5 ? "display:block" : "display:none")">
+                <div class="accordion-body">
+                    <div class="card text-white bg-info">
+                        <div class="card-body">
+                            <h2 class="card-title">$@datos.TicketPromedio.ToString("N2")</h2>
+                            <p class="card-text">Promedio por venta realizada.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 }
+<div
+<a href="Facturas">Facturas</a>
+</div>
+<a href="Reportes">Reportes</a>
+
+
 
 @code {
     private DashboardDatos datos = new DashboardDatos();
     private bool cargando = true;
+    private int idAbierto = 0; 
 
     protected override async Task OnInitializedAsync()
     {
-  
         datos = await Controlador.ObtenerDashboard();
         cargando = false;
+    }
+
+    private void Alternar(int id)
+    {
+       
+        if (idAbierto == id)
+        {
+            idAbierto = 0;
+        }
+        else
+        {
+            idAbierto = id; 
+        }
     }
 }
