@@ -67,5 +67,65 @@ namespace blazorfactura.Components.Servicios
 
             await _servicioFacturas.AgregarArticuloAFacturaExistente(facturaId, articulo);
         }
+       
+
+        public async Task<DashboardDatos> ObtenerDashboard()
+        {
+         
+            var listaFacturas = await ObtenerFacturas();
+            var datos = new DashboardDatos();
+
+          
+            if (!listaFacturas.Any()) return datos;
+
+            
+            var todosLosArticulos = listaFacturas.SelectMany(f => f.Articulos).ToList();
+
+            if (todosLosArticulos.Any())
+            {
+                var topArticulo = todosLosArticulos
+                    .GroupBy(a => a.Nombre)
+                    .OrderByDescending(g => g.Sum(a => a.Cantidad)) 
+                    .FirstOrDefault();
+
+                if (topArticulo != null)
+                {
+                    datos.ProductoMasVendido = $"{topArticulo.Key} ({topArticulo.Sum(a => a.Cantidad)} unds)";
+                }
+            }
+
+           
+            var topMes = listaFacturas
+                .GroupBy(f => f.Fecha.ToString("MMMM")) 
+                .OrderByDescending(g => g.Sum(f => f.Total))
+                .FirstOrDefault();
+
+            if (topMes != null)
+            {
+         
+                datos.MesMejorVenta = $"{topMes.Key.ToUpper()} (${topMes.Sum(f => f.Total):F2})";
+            }
+
+            var mejorCliente = listaFacturas
+                .GroupBy(f => f.NombreCliente)
+                .OrderByDescending(g => g.Sum(f => f.Total))
+                .FirstOrDefault();
+
+            if (mejorCliente != null)
+            {
+                datos.ClienteVip = mejorCliente.Key;
+            }
+
+   
+            datos.IngresosTotales = listaFacturas.Sum(f => f.Total);
+
+          
+            if (listaFacturas.Count > 0)
+            {
+                datos.TicketPromedio = datos.IngresosTotales / listaFacturas.Count;
+            }
+
+            return datos;
+        }
     }
 }
