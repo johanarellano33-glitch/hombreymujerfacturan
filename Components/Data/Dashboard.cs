@@ -15,5 +15,10 @@
 
         
         public decimal TicketPromedio { get; set; } = 0;
+        public string ProductoMenosVendido { get; set; } = "Sin datos";
+
+        public int TotalArticulosVendidos { get; set; } = 0;
+
     }
+
 }
