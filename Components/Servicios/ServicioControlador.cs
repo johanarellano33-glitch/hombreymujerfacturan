@@ -124,8 +124,24 @@ namespace blazorfactura.Components.Servicios
             {
                 datos.TicketPromedio = datos.IngresosTotales / listaFacturas.Count;
             }
+            if (todosLosArticulos.Any())
+            {
+                var peorArticulo = todosLosArticulos
+                    .GroupBy(a => a.Nombre)
+                    .OrderBy(g => g.Sum(a => a.Cantidad)) 
+                    .FirstOrDefault();
+
+                if (peorArticulo != null)
+                {
+                    datos.ProductoMenosVendido = $"{peorArticulo.Key} ({peorArticulo.Sum(a => a.Cantidad)} unds)";
+                }
+            }
+
+            if (todosLosArticulos.Any())
+            {
+                datos.TotalArticulosVendidos = todosLosArticulos.Sum(a => a.Cantidad);
+            }
 
             return datos;
         }
-    }
 }
