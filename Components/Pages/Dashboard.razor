@@ -1,0 +1,79 @@
+﻿@page "/dashboard"
+@using blazorfactura.Components.Data
+@inject blazorfactura.Components.Servicios.ServicioControlador Controlador
+@rendermode InteractiveServer
+
+<h3>📊 Tablero de Control (Dashboard)</h3>
+<p>Inteligencia de negocios basada en las facturas registradas.</p>
+
+@if (cargando)
+{
+    <p><em>Analizando datos...</em></p>
+}
+else
+{
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-header">💰 Ingresos Totales</div>
+                <div class="card-body">
+                    <h2 class="card-title">$@datos.IngresosTotales.ToString("F2")</h2>
+                    <p class="card-text">Suma total de todas las ventas históricas.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-header">🎫 Ticket Promedio</div>
+                <div class="card-body">
+                    <h2 class="card-title">$@datos.TicketPromedio.ToString("F2")</h2>
+                    <p class="card-text">Promedio de venta por cada factura emitida.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card border-primary mb-3" style="height: 100%;">
+                <div class="card-header bg-primary text-white">🏆 Producto Estrella</div>
+                <div class="card-body">
+                    <h4 class="card-title">@datos.ProductoMasVendido</h4>
+                    <p class="card-text text-muted">El artículo con mayor cantidad de unidades vendidas.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-warning mb-3" style="height: 100%;">
+                <div class="card-header bg-warning text-dark">📅 Mejor Temporada</div>
+                <div class="card-body">
+                    <h4 class="card-title">@datos.MesMejorVenta</h4>
+                    <p class="card-text text-muted">El mes donde se ha registrado el mayor ingreso económico.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-danger mb-3" style="height: 100%;">
+                <div class="card-header bg-danger text-white">🤝 Cliente VIP</div>
+                <div class="card-body">
+                    <h4 class="card-title">@datos.ClienteVip</h4>
+                    <p class="card-text text-muted">El cliente que ha generado más ganancias para la empresa.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private DashboardDatos datos = new DashboardDatos();
+    private bool cargando = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+  
+        datos = await Controlador.ObtenerDashboard();
+        cargando = false;
+    }
+}
