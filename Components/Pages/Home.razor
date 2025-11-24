@@ -1,10 +1,84 @@
 ﻿@page "/"
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Inicio</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="container d-flex flex-column justify-content-center" style="min-height: 80vh;">
 
-Welcome to your new app.
-<a href="Facturas">Facturas</a>
-<a href="Reportes">Reportes</a>
-<a href="Dashboard">Dashboard</a>
+    <div class="row mb-5 align-items-end">
+        <div class="col-md-8">
+            <small class="text-uppercase fw-bold text-muted" style="letter-spacing: 2px;">Panel de Control</small>
+            <h1 class="display-4 fw-bolder mt-2" style="color: var(--c1);">
+                Hola, Bienvenido 👋
+            </h1>
+            <p class="text-muted fs-5">
+                ¿Qué te gustaría gestionar hoy en <span style="color: var(--c2); font-weight: 700;">Tu Sistema</span>?
+            </p>
+        </div>
+        <div class="col-md-4 text-md-end d-none d-md-block">
+            <div class="d-inline-block px-4 py-2 rounded-pill" style="background-color: var(--c5);">
+                <i class="bi bi-calendar-event me-2" style="color: var(--c1);"></i>
+                <strong>@DateTime.Now.ToString("dd MMMM, yyyy")</strong>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <a href="Facturas" class="hero-card bg-gradient-1">
+                <i class="bi bi-receipt-cutoff hero-icon-bg"></i> <div class="z-1 position-relative">
+                    <div class="mb-3 p-2 rounded-3 d-inline-block" style="background: rgba(255,255,255,0.2);">
+                        <i class="bi bi-basket2-fill fs-4"></i>
+                    </div>
+                    <h3 class="fw-bold">Facturación</h3>
+                    <p class="opacity-75 small">Administra ventas y crea nuevas facturas.</p>
+                </div>
+
+                <div class="mt-3">
+                    <div class="card-btn">
+                        <i class="bi bi-arrow-right"></i>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="Dashboard" class="hero-card bg-gradient-2">
+                <i class="bi bi-bar-chart-fill hero-icon-bg"></i> <div class="z-1 position-relative">
+                    <div class="mb-3 p-2 rounded-3 d-inline-block" style="background: rgba(255,255,255,0.2);">
+                        <i class="bi bi-speedometer2 fs-4"></i>
+                    </div>
+                    <h3 class="fw-bold">Dashboard</h3>
+                    <p class="opacity-75 small">Métricas clave, KPIs y gráficas en vivo.</p>
+                </div>
+
+                <div class="mt-3">
+                    <div class="card-btn" style="color: var(--c2);">
+                        <i class="bi bi-arrow-right"></i>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="Reportes" class="hero-card bg-gradient-3 text-dark">
+                <i class="bi bi-file-earmark-spreadsheet hero-icon-bg text-dark"></i>
+
+                <div class="z-1 position-relative">
+                    <div class="mb-3 p-2 rounded-3 d-inline-block" style="background: rgba(255,255,255,0.4);">
+                        <i class="bi bi-folder-check fs-4"></i>
+                    </div>
+                    <h3 class="fw-bold">Reportes</h3>
+                    <p class="opacity-75 small">Historial detallado y exportación de datos.</p>
+                </div>
+
+                <div class="mt-3">
+                    <div class="card-btn text-dark">
+                        <i class="bi bi-arrow-right"></i>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+    </div>
+</div>
