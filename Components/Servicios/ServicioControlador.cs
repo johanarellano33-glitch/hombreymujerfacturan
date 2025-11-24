@@ -31,8 +31,8 @@ namespace blazorfactura.Components.Servicios
             var facturas = await _servicioFacturas.ObtenerFacturas();
             return facturas.Any() ? facturas.Max(f => f.Identificador) + 1 : 1;
         }
-    
-    public async Task EliminarFactura(int identificador)
+
+        public async Task EliminarFactura(int identificador)
         {
             await _servicioFacturas.EliminarFactura(identificador);
         }
@@ -67,25 +67,25 @@ namespace blazorfactura.Components.Servicios
 
             await _servicioFacturas.AgregarArticuloAFacturaExistente(facturaId, articulo);
         }
-       
+
 
         public async Task<DashboardDatos> ObtenerDashboard()
         {
-         
+
             var listaFacturas = await ObtenerFacturas();
             var datos = new DashboardDatos();
 
-          
+
             if (!listaFacturas.Any()) return datos;
 
-            
+
             var todosLosArticulos = listaFacturas.SelectMany(f => f.Articulos).ToList();
 
             if (todosLosArticulos.Any())
             {
                 var topArticulo = todosLosArticulos
                     .GroupBy(a => a.Nombre)
-                    .OrderByDescending(g => g.Sum(a => a.Cantidad)) 
+                    .OrderByDescending(g => g.Sum(a => a.Cantidad))
                     .FirstOrDefault();
 
                 if (topArticulo != null)
@@ -94,15 +94,15 @@ namespace blazorfactura.Components.Servicios
                 }
             }
 
-           
+
             var topMes = listaFacturas
-                .GroupBy(f => f.Fecha.ToString("MMMM")) 
+                .GroupBy(f => f.Fecha.ToString("MMMM"))
                 .OrderByDescending(g => g.Sum(f => f.Total))
                 .FirstOrDefault();
 
             if (topMes != null)
             {
-         
+
                 datos.MesMejorVenta = $"{topMes.Key.ToUpper()} (${topMes.Sum(f => f.Total):F2})";
             }
 
@@ -116,10 +116,10 @@ namespace blazorfactura.Components.Servicios
                 datos.ClienteVip = mejorCliente.Key;
             }
 
-   
+
             datos.IngresosTotales = listaFacturas.Sum(f => f.Total);
 
-          
+
             if (listaFacturas.Count > 0)
             {
                 datos.TicketPromedio = datos.IngresosTotales / listaFacturas.Count;
@@ -128,7 +128,7 @@ namespace blazorfactura.Components.Servicios
             {
                 var peorArticulo = todosLosArticulos
                     .GroupBy(a => a.Nombre)
-                    .OrderBy(g => g.Sum(a => a.Cantidad)) 
+                    .OrderBy(g => g.Sum(a => a.Cantidad))
                     .FirstOrDefault();
 
                 if (peorArticulo != null)
@@ -144,4 +144,5 @@ namespace blazorfactura.Components.Servicios
 
             return datos;
         }
+    }
 }
