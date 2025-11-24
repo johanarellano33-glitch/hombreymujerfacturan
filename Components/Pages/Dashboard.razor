@@ -120,6 +120,47 @@ else
         </div>
 
     </div>
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button @(idAbierto == 6 ? "" : "collapsed")"
+                    type="button"
+                    @onclick="() => Alternar(6)">
+                <strong>📉 ¿Cuál es el artículo que menos se vende?</strong>
+            </button>
+        </h2>
+        <div class="accordion-collapse collapse @(idAbierto == 6 ? "show" : "")"
+             style="@(idAbierto == 6 ? "display:block" : "display:none")">
+            <div class="accordion-body">
+                <div class="card text-white bg-secondary">
+                    <div class="card-body">
+                        <h2 class="card-title">@datos.ProductoMenosVendido</h2>
+                        <p class="card-text">Atención: Este producto tiene baja rotación.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button @(idAbierto == 7 ? "" : "collapsed")"
+                    type="button"
+                    @onclick="() => Alternar(7)">
+                <strong>📦 ¿Cuántos artículos hemos vendido en total?</strong>
+            </button>
+        </h2>
+        <div class="accordion-collapse collapse @(idAbierto == 7 ? "show" : "")"
+             style="@(idAbierto == 7 ? "display:block" : "display:none")">
+            <div class="accordion-body">
+                <div class="card text-white bg-dark">
+                    <div class="card-body">
+                        <h2 class="card-title">@datos.TotalArticulosVendidos piezas</h2>
+                        <p class="card-text">Volumen total de mercancía despachada.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 }
 <div
 <a href="Facturas">Facturas</a>
