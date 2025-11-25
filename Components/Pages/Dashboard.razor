@@ -3,176 +3,173 @@
 @inject blazorfactura.Components.Servicios.ServicioControlador Controlador
 @rendermode InteractiveServer
 
-<h3 class="mb-4">📊 Tablero de Inteligencia</h3>
-<p class="text-muted">Haz clic en una pregunta para ver la respuesta.</p>
+<div class="page-container">
 
-@if (cargando)
-{
-    <div class="alert alert-info">Cargando datos...</div>
-}
-else
-{
-    <div class="accordion" id="dashboardAccordion">
-
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button @(idAbierto == 1 ? "" : "collapsed")"
-                        type="button"
-                        @onclick="() => Alternar(1)">
-                    <strong>📦 ¿Cuál ha sido el artículo más vendido?</strong>
-                </button>
-            </h2>
-            <div class="accordion-collapse collapse @(idAbierto == 1 ? "show" : "")"
-                 style="@(idAbierto == 1 ? "display:block" : "display:none")">
-                <div class="accordion-body">
-                    <div class="card text-white bg-primary">
-                        <div class="card-body">
-                            <h2 class="card-title">@datos.ProductoMasVendido</h2>
-                            <p class="card-text">Es el producto con más unidades vendidas.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button @(idAbierto == 2 ? "" : "collapsed")"
-                        type="button"
-                        @onclick="() => Alternar(2)">
-                    <strong>📅 ¿En cuál mes se vende más?</strong>
-                </button>
-            </h2>
-            <div class="accordion-collapse collapse @(idAbierto == 2 ? "show" : "")"
-                 style="@(idAbierto == 2 ? "display:block" : "display:none")">
-                <div class="accordion-body">
-                    <div class="card text-dark bg-warning">
-                        <div class="card-body">
-                            <h2 class="card-title">@datos.MesMejorVenta</h2>
-                            <p class="card-text">Es tu temporada más fuerte del año.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button @(idAbierto == 3 ? "" : "collapsed")"
-                        type="button"
-                        @onclick="() => Alternar(3)">
-                    <strong>🤝 ¿Quién es nuestro mejor cliente?</strong>
-                </button>
-            </h2>
-            <div class="accordion-collapse collapse @(idAbierto == 3 ? "show" : "")"
-                 style="@(idAbierto == 3 ? "display:block" : "display:none")">
-                <div class="accordion-body">
-                    <div class="card text-white bg-danger">
-                        <div class="card-body">
-                            <h2 class="card-title">@datos.ClienteVip</h2>
-                            <p class="card-text">Es quien más ha invertido en tu negocio.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button @(idAbierto == 4 ? "" : "collapsed")"
-                        type="button"
-                        @onclick="() => Alternar(4)">
-                    <strong>💰 ¿A cuánto ascienden los ingresos totales?</strong>
-                </button>
-            </h2>
-            <div class="accordion-collapse collapse @(idAbierto == 4 ? "show" : "")"
-                 style="@(idAbierto == 4 ? "display:block" : "display:none")">
-                <div class="accordion-body">
-                    <div class="card text-white bg-success">
-                        <div class="card-body">
-                            <h2 class="card-title">$@datos.IngresosTotales.ToString("N2")</h2>
-                            <p class="card-text">Total histórico facturado.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button @(idAbierto == 5 ? "" : "collapsed")"
-                        type="button"
-                        @onclick="() => Alternar(5)">
-                    <strong>🛒 ¿Cuánto gasta un cliente promedio?</strong>
-                </button>
-            </h2>
-            <div class="accordion-collapse collapse @(idAbierto == 5 ? "show" : "")"
-                 style="@(idAbierto == 5 ? "display:block" : "display:none")">
-                <div class="accordion-body">
-                    <div class="card text-white bg-info">
-                        <div class="card-body">
-                            <h2 class="card-title">$@datos.TicketPromedio.ToString("N2")</h2>
-                            <p class="card-text">Promedio por venta realizada.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-    <div class="accordion-item">
-        <h2 class="accordion-header">
-            <button class="accordion-button @(idAbierto == 6 ? "" : "collapsed")"
-                    type="button"
-                    @onclick="() => Alternar(6)">
-                <strong>📉 ¿Cuál es el artículo que menos se vende?</strong>
-            </button>
-        </h2>
-        <div class="accordion-collapse collapse @(idAbierto == 6 ? "show" : "")"
-             style="@(idAbierto == 6 ? "display:block" : "display:none")">
-            <div class="accordion-body">
-                <div class="card text-white bg-secondary">
-                    <div class="card-body">
-                        <h2 class="card-title">@datos.ProductoMenosVendido</h2>
-                        <p class="card-text">Atención: Este producto tiene baja rotación.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="d-flex justify-content-between align-items-center mb-5" style="padding-bottom: 20px;">
+        <h2 class="mb-0" style="color: var(--c1);">Tablero de Inteligencia</h2>
+        <a href="/" class="btn-secondary-custom">
+            <i class="bi bi-house-door-fill me-2"></i>Inicio
+        </a>
     </div>
 
-    <div class="accordion-item">
-        <h2 class="accordion-header">
-            <button class="accordion-button @(idAbierto == 7 ? "" : "collapsed")"
-                    type="button"
-                    @onclick="() => Alternar(7)">
-                <strong>📦 ¿Cuántos artículos hemos vendido en total?</strong>
-            </button>
-        </h2>
-        <div class="accordion-collapse collapse @(idAbierto == 7 ? "show" : "")"
-             style="@(idAbierto == 7 ? "display:block" : "display:none")">
-            <div class="accordion-body">
-                <div class="card text-white bg-dark">
-                    <div class="card-body">
-                        <h2 class="card-title">@datos.TotalArticulosVendidos piezas</h2>
-                        <p class="card-text">Volumen total de mercancía despachada.</p>
+    @if (cargando)
+    {
+        <div class="text-center py-5">
+            <div class="spinner-border" style="color: var(--c1);" role="status"></div>
+        </div>
+    }
+    else
+    {
+        <div class="card-box p-0 overflow-hidden border-0 shadow-sm">
+            <div class="accordion list-group list-group-flush" id="dashAccordion">
+
+                <style>
+                    .accordion-item {
+                        border: none;
+                        border-bottom: 1px solid #eee;
+                        background: transparent;
+                    }
+
+                    .accordion-button {
+                        padding: 25px 30px;
+                        font-size: 1.1rem;
+                        border: none;
+                        border-radius: 15px !important;
+                        margin-bottom: 5px;
+                        background-color: #fff;
+                        transition: all 0.2s;
+                    }
+
+                        .accordion-button:not(.collapsed) {
+                            background-color: #f0fbf9;
+                            color: var(--c1);
+                            font-weight: bold;
+                            box-shadow: none;
+                        }
+
+                        .accordion-button:hover {
+                            background-color: #f8f9fa;
+                        }
+
+                    .accordion-body {
+                        padding: 30px;
+                        background-color: #fcfcfc;
+                        border-radius: 0 0 15px 15px;
+                    }
+                </style>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button @(idAbierto == 1 ? "" : "collapsed")" type="button" @onclick="() => Alternar(1)">
+                            <i class="bi bi-box-seam me-3 text-muted"></i> ¿Cuál es el artículo más vendido?
+                        </button>
+                    </h2>
+                    <div class="accordion-collapse collapse @(idAbierto == 1 ? "show" : "")" style="@(idAbierto == 1 ? "display:block" : "display:none")">
+                        <div class="accordion-body text-center">
+                            <i class="bi bi-trophy display-4 mb-3 d-block" style="color: var(--c1);"></i>
+                            <h2 class="mb-1">@datos.ProductoMasVendido</h2>
+                            <p class="text-muted">Producto líder en ventas.</p>
+                        </div>
                     </div>
                 </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button @(idAbierto == 2 ? "" : "collapsed")" type="button" @onclick="() => Alternar(2)">
+                            <i class="bi bi-calendar-event me-3 text-muted"></i> ¿En cuál mes se vende más?
+                        </button>
+                    </h2>
+                    <div class="accordion-collapse collapse @(idAbierto == 2 ? "show" : "")" style="@(idAbierto == 2 ? "display:block" : "display:none")">
+                        <div class="accordion-body text-center">
+                            <i class="bi bi-sun display-4 mb-3 d-block" style="color: var(--c2);"></i>
+                            <h2 class="mb-1" style="color: var(--c2);">@datos.MesMejorVenta</h2>
+                            <p class="text-muted">Tu mejor temporada.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button @(idAbierto == 3 ? "" : "collapsed")" type="button" @onclick="() => Alternar(3)">
+                            <i class="bi bi-person-heart me-3 text-muted"></i> ¿Quién es el mejor cliente?
+                        </button>
+                    </h2>
+                    <div class="accordion-collapse collapse @(idAbierto == 3 ? "show" : "")" style="@(idAbierto == 3 ? "display:block" : "display:none")">
+                        <div class="accordion-body text-center">
+                            <i class="bi bi-person-check display-4 mb-3 d-block text-danger"></i>
+                            <h2 class="mb-1 text-danger">@datos.ClienteVip</h2>
+                            <p class="text-muted">Cliente con mayor facturación.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button @(idAbierto == 4 ? "" : "collapsed")" type="button" @onclick="() => Alternar(4)">
+                            <i class="bi bi-cash-coin me-3 text-muted"></i> ¿Ingresos totales?
+                        </button>
+                    </h2>
+                    <div class="accordion-collapse collapse @(idAbierto == 4 ? "show" : "")" style="@(idAbierto == 4 ? "display:block" : "display:none")">
+                        <div class="accordion-body text-center">
+                            <h1 class="display-3 fw-bold mb-0" style="color: var(--c3);">$@datos.IngresosTotales.ToString("N2")</h1>
+                            <p class="text-muted mt-2">Facturación histórica.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button @(idAbierto == 5 ? "" : "collapsed")" type="button" @onclick="() => Alternar(5)">
+                            <i class="bi bi-receipt me-3 text-muted"></i> ¿Cuánto gasta un cliente promedio?
+                        </button>
+                    </h2>
+                    <div class="accordion-collapse collapse @(idAbierto == 5 ? "show" : "")" style="@(idAbierto == 5 ? "display:block" : "display:none")">
+                        <div class="accordion-body text-center">
+                            <i class="bi bi-bag-check display-4 mb-3 d-block text-info"></i>
+                            <h2 class="mb-1 text-info">$@datos.TicketPromedio.ToString("N2")</h2>
+                            <p class="text-muted">Gasto promedio por visita.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button @(idAbierto == 6 ? "" : "collapsed")" type="button" @onclick="() => Alternar(6)">
+                            <i class="bi bi-arrow-down-circle me-3 text-muted"></i> ¿Cuál es el producto menos vendido?
+                        </button>
+                    </h2>
+                    <div class="accordion-collapse collapse @(idAbierto == 6 ? "show" : "")" style="@(idAbierto == 6 ? "display:block" : "display:none")">
+                        <div class="accordion-body text-center">
+                            <i class="bi bi-recycle display-4 mb-3 d-block text-secondary"></i>
+                            <h2 class="mb-1 text-secondary">@datos.ProductoMenosVendido</h2>
+                            <p class="text-muted">Producto con baja rotación.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button @(idAbierto == 7 ? "" : "collapsed")" type="button" @onclick="() => Alternar(7)">
+                            <i class="bi bi-boxes me-3 text-muted"></i> ¿Cuántos artículos se han vendido?
+                        </button>
+                    </h2>
+                    <div class="accordion-collapse collapse @(idAbierto == 7 ? "show" : "")" style="@(idAbierto == 7 ? "display:block" : "display:none")">
+                        <div class="accordion-body text-center">
+                            <h2 class="mb-1 text-dark">@datos.TotalArticulosVendidos unidades</h2>
+                            <p class="text-muted">Total de piezas despachadas.</p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
-    </div>
-}
-<div
-<a href="Facturas">Facturas</a>
+    }
 </div>
-<a href="Reportes">Reportes</a>
-
-
 
 @code {
     private DashboardDatos datos = new DashboardDatos();
     private bool cargando = true;
-    private int idAbierto = 0; 
+    private int idAbierto = 0;
 
     protected override async Task OnInitializedAsync()
     {
@@ -182,14 +179,7 @@ else
 
     private void Alternar(int id)
     {
-       
-        if (idAbierto == id)
-        {
-            idAbierto = 0;
-        }
-        else
-        {
-            idAbierto = id; 
-        }
+        if (idAbierto == id) idAbierto = 0;
+        else idAbierto = id;
     }
 }
