@@ -1,10 +1,53 @@
 ﻿@page "/"
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Inicio</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="page-container">
+    <div class="section-title">
+        <h2>Bienvenido al Sistema</h2>
+        <p>Selecciona un módulo para comenzar a trabajar.</p>
+    </div>
 
-Welcome to your new app.
-<a href="Facturas">Facturas</a>
-<a href="Reportes">Reportes</a>
-<a href="Dashboard">Reportes</a>
+    <div class="row g-4 justify-content-center">
+
+        <div class="col-md-4">
+            <a href="Facturas" style="text-decoration: none; color: inherit;">
+                <div class="card-box text-center h-100">
+                    <div class="mb-4">
+                        <i class="bi bi-receipt-cutoff" style="font-size: 3.5rem; color: var(--c1);"></i>
+                    </div>
+                    <h3>Facturación</h3>
+                    <p class="text-muted mb-4">Gestión de ventas y clientes.</p>
+                    <span class="btn-secondary-custom">Ingresar</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="Dashboard" style="text-decoration: none; color: inherit;">
+                <div class="card-box text-center h-100">
+                    <div class="mb-4">
+                        <i class="bi bi-bar-chart-fill" style="font-size: 3.5rem; color: var(--c2);"></i>
+                    </div>
+                    <h3 style="color: var(--c2);">Dashboard</h3>
+                    <p class="text-muted mb-4">Estadísticas e inteligencia.</p>
+                    <span class="btn-secondary-custom" style="color: var(--c2); border-color: var(--c2);">Ver Datos</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="Reportes" style="text-decoration: none; color: inherit;">
+                <div class="card-box text-center h-100">
+                    <div class="mb-4">
+                        <i class="bi bi-table" style="font-size: 3.5rem; color: #8a9e4b;"></i>
+                    </div>
+                    <h3 style="color: #8a9e4b;">Reportes</h3>
+                    <p class="text-muted mb-4">Historial anual detallado.</p>
+                    <span class="btn-secondary-custom" style="color: #8a9e4b; border-color: #8a9e4b;">Consultar</span>
+                </div>
+            </a>
+        </div>
+
+    </div>
+</div>
