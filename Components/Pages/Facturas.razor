@@ -4,147 +4,241 @@
 @inject IJSRuntime JSRuntime
 @rendermode InteractiveServer
 
-<h3>Sistema de Facturas</h3>
+<div class="page-container">
 
-<h4>Nueva Factura</h4>
+    <div class="d-flex justify-content-between mb-5 align-items-center" style="padding-bottom: 20px;">
+        <div>
+            <h2 class="mb-0" style="color: var(--c1);">Gestión de Facturas</h2>
+            <p class="text-muted small mb-0">Administra tus ventas e inventario</p>
+        </div>
+        <a href="/" class="btn-secondary-custom px-4 py-2 text-decoration-none text-dark border-0 small shadow-sm">
+            <i class="bi bi-arrow-left me-2"></i> Volver al Inicio
+        </a>
+    </div>
 
-<div>
-    <label>Fecha:</label>
-    <input type="date" value="@nuevaFactura.Fecha.ToString("yyyy-MM-dd")" @onchange="@(async (e) => { nuevaFactura.Fecha = DateTime.Parse(e.Value.ToString()); await GuardarDatosFormulario(); })" />
-</div>
+    <div class="row g-5">
 
-<div>
-    <label>Nombre del Cliente:</label>
-    <input type="text" value="@nuevaFactura.NombreCliente" @onchange="@(async (e) => { nuevaFactura.NombreCliente = e.Value.ToString(); await GuardarDatosFormulario(); })" placeholder="Nombre del cliente" />
-</div>
+        <div class="col-lg-4">
+            <div class="card-box sticky-top" style="top: 20px; border-top: 5px solid var(--c1);">
+                <h4 class="mb-4 text-center" style="color: var(--c1);">
+                    @(facturaEditando == null ? "✨ Nueva Factura" : "✏️ Editando Cabecera")
+                </h4>
 
-<h5>Agregar Artículos</h5>
+                <div class="mb-3">
+                    <label class="small text-muted fw-bold mb-1">Fecha de Emisión</label>
+                    @if (facturaEditando != null)
+                    {
+                        <input type="date" @bind="fechaEditando" class="form-control form-control-custom" />
+                    }
+                    else
+                    {
 
-<div>
-    <label>Nombre del artículo:</label>
-    <input type="text" value="@nuevoArticulo.Nombre" @onchange="@(async (e) => { nuevoArticulo.Nombre = e.Value.ToString(); await GuardarDatosFormulario(); })" placeholder="Nombre del artículo" />
-</div>
+                        <input type="date" value="@nuevaFactura.Fecha.ToString("yyyy-MM-dd")" @onchange="@(async (e) => { nuevaFactura.Fecha = DateTime.Parse(e.Value.ToString()); await GuardarDatosFormulario(); })" class="form-control form-control-custom" />
+                    }
+                </div>
+                <div class="mb-4">
+                    <label class="small text-muted fw-bold mb-1">Cliente</label>
+                    @if (facturaEditando != null)
+                    {
+                        <input type="text" @bind="clienteEditando" class="form-control form-control-custom" placeholder="Nombre del cliente" />
+                    }
+                    else
+                    {
 
-<div>
-    <label>Precio:</label>
-    <input type="number" value="@nuevoArticulo.Precio" @onchange="@(async (e) => { if (decimal.TryParse(e.Value.ToString(), out var precio)) { nuevoArticulo.Precio = precio; await GuardarDatosFormulario(); } })" placeholder="Precio" step="0.01" />
-</div>
+                        <input type="text" value="@nuevaFactura.NombreCliente" @onchange="@(async (e) => { nuevaFactura.NombreCliente = e.Value.ToString(); await GuardarDatosFormulario(); })" class="form-control form-control-custom" placeholder="Ej. Empresa S.A." />
+                    }
+                </div>
 
-<div>
-    <label>Cantidad:</label>
-    <input type="number" value="@nuevoArticulo.Cantidad" @onchange="@(async (e) => { if (int.TryParse(e.Value.ToString(), out var cantidad)) { nuevoArticulo.Cantidad = cantidad; await GuardarDatosFormulario(); } })" placeholder="Cantidad" />
-</div>
-
-<div>
-    <button @onclick="AgregarArticuloAFactura">Agregar Artículo</button>
-</div>
-
-@if (nuevaFactura.Articulos.Any())
-{
-    <h5>Artículos agregados:</h5>
-    <ul>
-        @foreach (var art in nuevaFactura.Articulos)
-        {
-            <li>
-                @art.Nombre - Precio: $@art.Precio.ToString("F2") - Cantidad: @art.Cantidad - Subtotal: $@art.Subtotal.ToString("F2")
-                <button @onclick="() => EliminarArticuloTemporal(art)">Eliminar</button>
-            </li>
-        }
-    </ul>
-    <p><strong>Total de la factura: $@nuevaFactura.Total.ToString("F2")</strong></p>
-}
-
-<div>
-    <button @onclick="GuardarFactura">Guardar Factura</button>
-</div>
-
-<hr />
-
-<h4>Facturas Registradas</h4>
-
-@if (listaFacturas.Any())
-{
-    <ul>
-        @foreach (var factura in listaFacturas)
-        {
-            <li>
-                @if (facturaEditando?.Identificador == factura.Identificador)
+                @if (facturaEditando == null)
                 {
-                    <strong>Editando Factura #@factura.Identificador</strong>
-                    <br />
-                    <label>Fecha:</label>
-                    <input type="date" @bind="fechaEditando" @bind:format="yyyy-MM-dd" />
-                    <label>Cliente:</label>
-                    <input type="text" @bind="clienteEditando" />
-                    <button @onclick="GuardarEdicionFactura">Guardar</button>
-                    <button @onclick="CancelarEdicionFactura">Cancelar</button>
+                    <div class="bg-light p-3 rounded-4 mb-4 border">
+                        <label class="small text-muted fw-bold mb-2 d-block text-center">Agregar Productos al Carrito</label>
+                        <div class="row g-2">
+                            <div class="col-12"><input type="text" @bind="nuevoArticulo.Nombre" placeholder="Nombre del producto" class="form-control form-control-custom bg-white" /></div>
+                            <div class="col-6"><input type="number" @bind="nuevoArticulo.Precio" placeholder="$ Precio" class="form-control form-control-custom bg-white" /></div>
+                            <div class="col-6"><input type="number" @bind="nuevoArticulo.Cantidad" placeholder="Cant." class="form-control form-control-custom bg-white" /></div>
+                            <div class="col-12 mt-2">
+                                <button @onclick="AgregarArticuloAFactura" class="btn-primary-custom w-100 py-2 small">
+                                    <i class="bi bi-plus-lg me-1"></i> Agregar al Carrito
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (nuevaFactura.Articulos.Any())
+                    {
+                        <div class="mb-4">
+                            <h6 class="text-muted small fw-bold border-bottom pb-2">Artículos en lista:</h6>
+                            <ul class="list-group list-group-flush mb-3">
+                                @foreach (var art in nuevaFactura.Articulos)
+                                {
+                                    <li class="list-group-item bg-transparent d-flex justify-content-between px-0 py-2 align-items-center">
+                                        <div style="line-height: 1.2;">
+                                            <span class="d-block fw-bold text-dark" style="font-size: 0.9rem;">@art.Nombre</span>
+                                            <small class="text-muted">@art.Cantidad x $@art.Precio</small>
+                                        </div>
+                                        <div class="text-end">
+                                            <strong class="text-success d-block small">$@art.Subtotal.ToString("F2")</strong>
+                                            <i class="bi bi-trash text-danger small" style="cursor:pointer" @onclick="() => EliminarArticuloTemporal(art)"></i>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                            <div class="d-flex justify-content-between align-items-center bg-light p-2 rounded-3">
+                                <span class="fw-bold text-muted">TOTAL:</span>
+                                <h4 class="mb-0 fw-bold" style="color: var(--c1);">$@nuevaFactura.Total.ToString("F2")</h4>
+                            </div>
+                        </div>
+                        <button class="btn-primary-custom w-100 shadow-sm py-3" @onclick="GuardarFactura">
+                            <i class="bi bi-save me-2"></i> Guardar Factura
+                        </button>
+                    }
                 }
                 else
                 {
-                    <span>
-                        <strong>Factura #@factura.Identificador</strong>
-                        @factura.Fecha.ToString("dd/MM/yyyy")
-                        Cliente: @factura.NombreCliente
-                    </span>
-                    <button @onclick="@(() => EditarFactura(factura))">Editar</button>
-                    <button @onclick="@(() => EliminarFactura(factura.Identificador))">Eliminar</button>
+                    <div class="d-flex gap-2">
+                        <button class="btn-secondary-custom w-50" @onclick="CancelarEdicionFactura">Cancelar</button>
+                        <button class="btn-primary-custom w-50" @onclick="GuardarEdicionFactura">Guardar</button>
+                    </div>
                 }
+            </div>
+        </div>
 
-                <ul>
-                    @foreach (var art in factura.Articulos)
-                    {
-                        <li>
-                            @if (articuloEditando?.Identificador == art.Identificador && facturaEditandoArticulo?.Identificador == factura.Identificador)
-                            {
-                                <input type="text" @bind="nombreArticuloEditando" placeholder="Nombre" />
-                                <input type="number" @bind="precioArticuloEditando" step="0.01" placeholder="Precio" />
-                                <input type="number" @bind="cantidadArticuloEditando" placeholder="Cantidad" />
-                                <button @onclick="@(() => GuardarEdicionArticulo(factura.Identificador))">Guardar</button>
-                                <button @onclick="CancelarEdicionArticulo">Cancelar</button>
-                            }
-                            else
-                            {
-                                <span>
-                                    @art.Nombre
-                                    Precio: $@art.Precio.ToString("F2")
-                                    Cantidad: @art.Cantidad
-                                    Subtotal: $@art.Subtotal.ToString("F2")
-                                </span>
-                                <button @onclick="@(() => EditarArticulo(factura, art))">Editar</button>
-                                <button @onclick="@(() => EliminarArticuloDeFactura(factura.Identificador, art.Identificador))">Eliminar</button>
-                            }
-                        </li>
-                    }
-                    <li><strong>Total: $@factura.Total.ToString("F2")</strong></li>
-                </ul>
+        <div class="col-lg-8">
+            <div class="card-box h-100 p-0 overflow-hidden">
+                <div class="p-4 bg-light border-bottom d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 fw-bold text-dark">Historial de Facturas</h5>
+                    <span class="badge bg-white text-dark border">@listaFacturas.Count registros</span>
+                </div>
 
-                @if (facturaAgregandoArticulo?.Identificador == factura.Identificador)
+                @if (listaFacturas.Any())
                 {
-                    <div>
-                        Agregar artículo:
-                        <input type="text" @bind="nuevoArticuloFactura.Nombre" placeholder="Nombre" />
-                        <input type="number" @bind="nuevoArticuloFactura.Precio" step="0.01" placeholder="Precio" />
-                        <input type="number" @bind="nuevoArticuloFactura.Cantidad" placeholder="Cantidad" />
-                        <button @onclick="@(() => GuardarNuevoArticulo(factura.Identificador))">Agregar</button>
-                        <button @onclick="CancelarAgregarArticulo">Cancelar</button>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="small text-muted bg-light">
+                                <tr>
+                                    <th class="ps-4 py-3">Info Factura</th>
+                                    <th class="py-3">Contenido</th>
+                                    <th class="py-3 text-end pe-4">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var f in listaFacturas)
+                                {
+                                    <tr>
+                                        <td class="ps-4 align-top py-3" style="width: 25%;">
+                                            <div class="mb-1">
+                                                <span class="badge bg-light text-dark border mb-1">#@f.Identificador</span>
+                                                <br>
+                                                <strong class="text-dark">@f.NombreCliente</strong>
+                                            </div>
+                                            <small class="text-muted d-block mb-1">
+                                                <i class="bi bi-calendar-event me-1"></i> @f.Fecha.ToString("dd/MM/yyyy")
+                                            </small>
+                                            <h5 class="fw-bold mb-0" style="color: var(--c2);">$@f.Total.ToString("F2")</h5>
+                                        </td>
+
+                                        <td class="align-top py-3">
+                                            <div class="card p-3 border-0 bg-light rounded-3">
+                                                <ul class="list-unstyled mb-0">
+                                                    @foreach (var art in f.Articulos)
+                                                    {
+                                                        <li class="mb-3 border-bottom pb-2" style="border-color: rgba(0,0,0,0.05) !important;">
+                                                            @if (articuloEditando?.Identificador == art.Identificador && facturaEditandoArticulo?.Identificador == f.Identificador)
+                                                            {
+                                                                <div class="row g-1 align-items-center">
+                                                                    <div class="col-4"><input type="text" class="form-control form-control-sm" @bind="nombreArticuloEditando"></div>
+                                                                    <div class="col-3"><input type="number" class="form-control form-control-sm" @bind="precioArticuloEditando"></div>
+                                                                    <div class="col-2"><input type="number" class="form-control form-control-sm" @bind="cantidadArticuloEditando"></div>
+                                                                    <div class="col-3 text-end">
+                                                                        <button class="btn btn-sm btn-success p-1" @onclick="@(() => GuardarEdicionArticulo(f.Identificador))">OK</button>
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="d-flex justify-content-between align-items-center">
+                                                                    <div>
+                                                                        <span class="fw-bold text-dark" style="font-size: 0.9rem;">@art.Nombre</span>
+                                                                        <span class="text-muted small ms-2">(@art.Cantidad x $@art.Precio)</span>
+                                                                    </div>
+                                                                    <div class="text-end">
+                                                                        <strong class="text-dark small me-3 d-block">$@art.Subtotal.ToString("F2")</strong>
+
+                                                                        <button class="btn btn-sm me-1 mt-1"
+                                                                                style="background-color: var(--white); color: var(--c1); border: 1px solid var(--c1); border-radius: 8px; font-size: 0.7rem; padding: 2px 8px;"
+                                                                                @onclick="@(() => EditarArticulo(f, art))">
+                                                                            ✏️ Editar
+                                                                        </button>
+                                                                        <button class="btn btn-sm mt-1"
+                                                                                style="background-color: #fff5f5; color: #dc3545; border: 1px solid #ffc9c9; border-radius: 8px; font-size: 0.7rem; padding: 2px 8px;"
+                                                                                @onclick="@(() => EliminarArticuloDeFactura(f.Identificador, art.Identificador))">
+                                                                            🗑️ Borrar
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                        </li>
+                                                    }
+                                                </ul>
+                                                <div class="mt-2 pt-2">
+                                                    @if (facturaAgregandoArticulo?.Identificador == f.Identificador)
+                                                    {
+                                                        <div class="row g-1 mt-2">
+                                                            <div class="col-4"><input type="text" class="form-control form-control-sm" @bind="nuevoArticuloFactura.Nombre" placeholder="Nombre"></div>
+                                                            <div class="col-3"><input type="number" class="form-control form-control-sm" @bind="nuevoArticuloFactura.Precio" placeholder="$"></div>
+                                                            <div class="col-2"><input type="number" class="form-control form-control-sm" @bind="nuevoArticuloFactura.Cantidad" placeholder="#"></div>
+                                                            <div class="col-3 text-end">
+                                                                <button class="btn btn-sm btn-primary p-1" @onclick="@(() => GuardarNuevoArticulo(f.Identificador))">Add</button>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <button class="btn w-100 border-dashed"
+                                                                style="border: 1px dashed var(--c1); color: var(--c1); background-color: white; border-radius: 10px; font-size: 0.85rem;"
+                                                                @onclick="@(() => MostrarFormularioAgregarArticulo(f))">
+                                                            <i class="bi bi-plus-circle me-1"></i> Agregar Artículo
+                                                        </button>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                        <td class="text-end pe-4 align-top py-3">
+                                            <div class="d-flex flex-column gap-2 align-items-end">
+                                                <button class="btn w-100 text-start shadow-sm"
+                                                        style="background-color: white; border: 2px solid var(--c1); color: var(--c1); border-radius: 12px; font-weight: 600;"
+                                                        title="Editar Cabecera" @onclick="() => EditarFactura(f)">
+                                                    <i class="bi bi-pencil-square me-2"></i> Editar
+                                                </button>
+
+                                                <button class="btn w-100 text-start shadow-sm"
+                                                        style="background-color: #ffe5e5; border: 2px solid #ffb3b3; color: #d63384; border-radius: 12px; font-weight: 600;"
+                                                        title="Eliminar Factura" @onclick="() => EliminarFactura(f.Identificador)">
+                                                    <i class="bi bi-trash me-2"></i> Borrar
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
                     </div>
                 }
                 else
                 {
-                    <button @onclick="@(() => MostrarFormularioAgregarArticulo(factura))">+ Agregar Artículo</button>
+                    <div class="text-center p-5 text-muted">
+                        <i class="bi bi-inbox display-1 opacity-25"></i>
+                        <p class="mt-3">No hay facturas registradas aún.</p>
+                    </div>
                 }
-            </li>
-        }
-    </ul>
-}
-else
-{
-    <p>No hay facturas registradas.</p>
-}
-<div>
-<a href="Reportes">Reportes</a>
+            </div>
+        </div>
+
+    </div>
 </div>
-<a href="Dashboard">Dashboard</a>
+
 @code {
     private List<Factura> listaFacturas = new();
     private Factura nuevaFactura = new() { Fecha = DateTime.Now };
@@ -196,8 +290,6 @@ else
             await FacturasControlador.AgregarFactura(nuevaFactura);
             listaFacturas = await FacturasControlador.ObtenerFacturas();
             nuevaFactura = new Factura { Fecha = DateTime.Now };
-
-            Console.WriteLine("Factura guardada correctamente");
         }
     }
 
@@ -205,7 +297,6 @@ else
     {
         await FacturasControlador.EliminarFactura(identificador);
         listaFacturas = await FacturasControlador.ObtenerFacturas();
-        Console.WriteLine($"Factura {identificador} eliminada");
     }
 
     private void EditarFactura(Factura factura)
@@ -224,9 +315,7 @@ else
 
             await FacturasControlador.ActualizarFactura(facturaEditando);
             listaFacturas = await FacturasControlador.ObtenerFacturas();
-
             facturaEditando = null;
-            Console.WriteLine("Factura actualizada");
         }
     }
 
@@ -257,7 +346,6 @@ else
 
             articuloEditando = null;
             facturaEditandoArticulo = null;
-            Console.WriteLine("Artículo actualizado");
         }
     }
 
@@ -285,7 +373,6 @@ else
         {
             await FacturasControlador.AgregarArticuloAFacturaExistente(facturaId, nuevoArticuloFactura);
             listaFacturas = await FacturasControlador.ObtenerFacturas();
-
             facturaAgregandoArticulo = null;
             nuevoArticuloFactura = new Articulo { Cantidad = 1 };
         }
@@ -296,7 +383,6 @@ else
         facturaAgregandoArticulo = null;
         nuevoArticuloFactura = new Articulo { Cantidad = 1 };
     }
-   
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -311,38 +397,20 @@ else
     {
         try
         {
-      
             var fechaStr = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "nuevaFactura_Fecha");
-            if (!string.IsNullOrEmpty(fechaStr))
-            {
-                nuevaFactura.Fecha = DateTime.Parse(fechaStr);
-            }
+            if (!string.IsNullOrEmpty(fechaStr)) nuevaFactura.Fecha = DateTime.Parse(fechaStr);
 
-          
             var cliente = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "nuevaFactura_Cliente");
-            if (!string.IsNullOrEmpty(cliente))
-            {
-                nuevaFactura.NombreCliente = cliente;
-            }
+            if (!string.IsNullOrEmpty(cliente)) nuevaFactura.NombreCliente = cliente;
 
-   
             var nombreArt = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "nuevoArticulo_Nombre");
-            if (!string.IsNullOrEmpty(nombreArt))
-            {
-                nuevoArticulo.Nombre = nombreArt;
-            }
+            if (!string.IsNullOrEmpty(nombreArt)) nuevoArticulo.Nombre = nombreArt;
 
             var precioStr = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "nuevoArticulo_Precio");
-            if (!string.IsNullOrEmpty(precioStr))
-            {
-                nuevoArticulo.Precio = decimal.Parse(precioStr);
-            }
+            if (!string.IsNullOrEmpty(precioStr)) nuevoArticulo.Precio = decimal.Parse(precioStr);
 
             var cantidadStr = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "nuevoArticulo_Cantidad");
-            if (!string.IsNullOrEmpty(cantidadStr))
-            {
-                nuevoArticulo.Cantidad = int.Parse(cantidadStr);
-            }
+            if (!string.IsNullOrEmpty(cantidadStr)) nuevoArticulo.Cantidad = int.Parse(cantidadStr);
         }
         catch (Exception ex)
         {
@@ -365,4 +433,4 @@ else
             Console.WriteLine($"Error guardando datos: {ex.Message}");
         }
     }
-}                       
+}

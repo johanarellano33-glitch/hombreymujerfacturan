@@ -4,200 +4,123 @@
 @rendermode InteractiveServer
 @inject IJSRuntime JSRuntime
 
-<h3>Reportes de Facturas</h3>
+<div class="page-container">
+    <div class="text-center mb-5">
+        <h2>Reportes Financieros</h2>
+    </div>
 
-<div>
-    <label>Seleccionar Año:</label>
-    <input type="number" @bind="anioSeleccionado" placeholder="2024" min="2000" max="2100" />
-
-    <label style="margin-left: 15px;">Seleccionar Cliente:</label>
-    <select @bind="clienteSeleccionado">
-        <option value="">-- Todos los Clientes --</option>
-        @if (listaClientes.Any())
-        {
-            @foreach (var cliente in listaClientes)
-            {
-                <option value="@cliente">@cliente</option>
-            }
-        }
-    </select>
-    <button @onclick="GenerarReporte" style="margin-left: 15px;">Generar Reporte</button>
-</div>
-
-<hr />
-
-@if (reporteMostrado)
-{
-    <h4>
-        Reporte del Año @anioSeleccionado
-        @if (!string.IsNullOrEmpty(clienteSeleccionado))
-        {
-           
-        }
-    </h4>
-    @if (reportePorMes.Any(m => m.Facturas.Any()))
-    {
-        @foreach (var mes in reportePorMes.OrderBy(m => m.NumeroMes))
-        {
-            @if (mes.Facturas.Any())
-            {
-                <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 15px;">
-                    <h5>@mes.NombreMes</h5>
-
-                    <ul>
-                        @foreach (var factura in mes.Facturas)
-                        {
-                            <li>
-                                Factura #@factura.Identificador - @factura.Fecha.ToString("dd/MM/yyyy")
-                                - Cliente: @factura.NombreCliente
-                                - Total: $@factura.Total.ToString("F2")
-                            </li>
-                        }
-                    </ul>
-                    <p><strong>Total del mes: $@mes.TotalMes.ToString("F2")</strong></p>
-                    <p>Número de facturas: @mes.Facturas.Count</p>
-                </div>
-            }
-        }
-
-        <div style="border: 2px solid #000; padding: 15px; background-color: #f0f0f0;">
-            <h4>
-                Total del Año @anioSeleccionado
-                @if (!string.IsNullOrEmpty(clienteSeleccionado))
-                {
-                    <span> (Cliente: @clienteSeleccionado)</span>
-                }
-                : $@totalAnual.ToString("F2")
-            </h4>
-            <p>Total de facturas: @totalFacturas</p>
+    <div class="card-box py-4 mb-5">
+        <div class="row align-items-end g-3 justify-content-center">
+            <div class="col-md-3">
+                <label class="form-label fw-bold text-muted small">Año</label>
+                <input type="number" @bind="anioSeleccionado" class="form-control form-control-custom" placeholder="2024" />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label fw-bold text-muted small">Cliente (Opcional)</label>
+                <select @bind="clienteSeleccionado" class="form-select form-select-custom">
+                    <option value="">-- Todos --</option>
+                    @foreach (var cliente in listaClientes)
+                    {
+                        <option value="@cliente">@cliente</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button @onclick="GenerarReporte" class="btn-primary-custom w-100">Buscar</button>
+            </div>
         </div>
-    }
-    else
+    </div>
+
+    @if (reporteMostrado)
     {
-        <p>
-            No hay facturas registradas para el año @anioSeleccionado
-            @if (!string.IsNullOrEmpty(clienteSeleccionado))
-            {
-                <span> con el cliente @clienteSeleccionado</span>
-            }
-            .
-        </p>
+        @if (reportePorMes.Any(m => m.Facturas.Any()))
+        {
+            <div class="row g-4">
+                @foreach (var mes in reportePorMes.OrderBy(m => m.NumeroMes))
+                {
+                    @if (mes.Facturas.Any())
+                    {
+                        <div class="col-md-6">
+                            <div class="card-box h-100 p-4 border-start border-4" style="border-color: var(--c1) !important; border-radius: 15px;">
+                                <div class="d-flex justify-content-between mb-3">
+                                    <h4 class="mb-0">@mes.NombreMes</h4>
+                                    <span class="badge bg-light text-dark">@mes.Facturas.Count facturas</span>
+                                </div>
+                                <h3 class="fw-bold text-end" style="color: var(--c2);">$@mes.TotalMes.ToString("N2")</h3>
+                                <hr class="opacity-25">
+                                <small class="text-muted d-block">Detalle:</small>
+                                <ul class="list-unstyled small text-muted mt-2">
+                                    @foreach (var f in mes.Facturas.Take(3))
+                                    {
+                                        <li>#@f.Identificador - $@f.Total.ToString("N2") (@f.NombreCliente)</li>
+                                    }
+                                    @if (mes.Facturas.Count > 3)
+                                    {
+                                        <li>... y @(mes.Facturas.Count - 3) más</li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+
+            <div class="card-box mt-5 text-center bg-dark text-white">
+                <h4 class="text-white-50">Gran Total @anioSeleccionado</h4>
+                <h1 class="display-3 fw-bold text-white">$@totalAnual.ToString("N2")</h1>
+            </div>
+        }
+        else
+        {
+            <div class="text-center text-muted py-5">
+                <i class="bi bi-folder-x display-1"></i>
+                <p class="mt-3">No se encontraron datos.</p>
+            </div>
+        }
     }
-}
-<div>
-<a href="Facturas">Facturas</a>
 </div>
-<a href="Dashboard">Dashboard</a>
 
 @code {
+
     private int anioSeleccionado = DateTime.Now.Year;
     private List<ReporteMes> reportePorMes = new();
     private bool reporteMostrado = false;
     private decimal totalAnual = 0;
     private int totalFacturas = 0;
-
-    
     private string clienteSeleccionado = "";
     private List<string> listaClientes = new();
-   
 
-    
     protected override async Task OnInitializedAsync()
     {
         var todasLasFacturas = await FacturasControlador.ObtenerFacturas();
         if (todasLasFacturas != null)
         {
-            listaClientes = todasLasFacturas
-                .Select(f => f.NombreCliente)
-                .Distinct()
-                .OrderBy(nombre => nombre)
-                .ToList();
+            listaClientes = todasLasFacturas.Select(f => f.NombreCliente).Distinct().OrderBy(n => n).ToList();
         }
     }
-   
 
     private async Task GenerarReporte()
     {
         await JSRuntime.InvokeVoidAsync("localStorage.setItem", "reporte_anio", anioSeleccionado.ToString());
-
-        var todasLasFacturas = await FacturasControlador.ObtenerFacturas();
-
-        var facturasDelAnio = todasLasFacturas
-            .Where(f => f.Fecha.Year == anioSeleccionado)
-            .ToList();
+        var todas = await FacturasControlador.ObtenerFacturas();
+        var query = todas.Where(f => f.Fecha.Year == anioSeleccionado);
+        if (!string.IsNullOrEmpty(clienteSeleccionado)) query = query.Where(f => f.NombreCliente == clienteSeleccionado);
+        var facturasDelAnio = query.ToList();
 
         reportePorMes.Clear();
-
         for (int mes = 1; mes <= 12; mes++)
         {
-            var facturasDelMes = facturasDelAnio
-                .Where(f => f.Fecha.Month == mes)
-                .ToList();
-
-            reportePorMes.Add(new ReporteMes
-            {
-                NumeroMes = mes,
-                NombreMes = ObtenerNombreMes(mes),
-                Facturas = facturasDelMes,
-                TotalMes = facturasDelMes.Sum(f => f.Total)
-            });
+            var facturasDelMes = facturasDelAnio.Where(f => f.Fecha.Month == mes).ToList();
+            reportePorMes.Add(new ReporteMes { NumeroMes = mes, NombreMes = ObtenerNombreMes(mes), Facturas = facturasDelMes, TotalMes = facturasDelMes.Sum(f => f.Total) });
         }
-
         totalAnual = reportePorMes.Sum(m => m.TotalMes);
         totalFacturas = facturasDelAnio.Count;
         reporteMostrado = true;
     }
-    
 
-    private string ObtenerNombreMes(int mes)
-    {
-        return mes switch
-        {
-            1 => "Enero",
-            2 => "Febrero",
-            3 => "Marzo",
-            4 => "Abril",
-            5 => "Mayo",
-            6 => "Junio",
-            7 => "Julio",
-            8 => "Agosto",
-            9 => "Septiembre",
-            10 => "Octubre",
-            11 => "Noviembre",
-            12 => "Diciembre",
-            _ => "Mes desconocido"
-        };
-    }
+    private string ObtenerNombreMes(int mes) => mes switch { 1 => "Enero", 2 => "Febrero", 3 => "Marzo", 4 => "Abril", 5 => "Mayo", 6 => "Junio", 7 => "Julio", 8 => "Agosto", 9 => "Septiembre", 10 => "Octubre", 11 => "Noviembre", 12 => "Diciembre", _ => "" };
+    private class ReporteMes { public int NumeroMes { get; set; } public string NombreMes { get; set; } = ""; public List<Factura> Facturas { get; set; } = new(); public decimal TotalMes { get; set; } }
 
-    private class ReporteMes
-    {
-        public int NumeroMes { get; set; }
-        public string NombreMes { get; set; } = "";
-        public List<Factura> Facturas { get; set; } = new();
-        public decimal TotalMes { get; set; }
-    }
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await CargarAnioSeleccionado();
-            StateHasChanged();
-        }
-    }
-
-    private async Task CargarAnioSeleccionado()
-    {
-        try
-        {
-            var anioStr = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "reporte_anio");
-            if (!string.IsNullOrEmpty(anioStr))
-            {
-                anioSeleccionado = int.Parse(anioStr);
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error cargando año: {ex.Message}");
-        }
-    }
+    protected override async Task OnAfterRenderAsync(bool firstRender) { if (firstRender) { await CargarAnioSeleccionado(); StateHasChanged(); } }
+    private async Task CargarAnioSeleccionado() { try { var a = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "reporte_anio"); if (!string.IsNullOrEmpty(a)) anioSeleccionado = int.Parse(a); } catch { } }
 }
