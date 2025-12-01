@@ -1,5 +1,6 @@
 ﻿using blazorfactura.Components.Data;
 using System.Runtime.CompilerServices;
+
 namespace blazorfactura.Components.Servicios
 {
     public class ServicioControlador
@@ -10,25 +11,26 @@ namespace blazorfactura.Components.Servicios
         {
             _servicioFacturas = servicioFacturas;
         }
+
+   
         public async Task<List<Factura>> ObtenerFacturas()
         {
-            return await _servicioFacturas.ObtenerFacturas(incluirArchivadas: false);
+    
+            return await _servicioFacturas.ObtenerFacturas(verArchivadas: false);
         }
 
-    
+ 
         public async Task<List<Factura>> ObtenerFacturasArchivadas()
         {
-            return await _servicioFacturas.ObtenerFacturas(incluirArchivadas: true);
+
+            return await _servicioFacturas.ObtenerFacturas(verArchivadas: true);
         }
 
-
-        public async Task CambiarEstadoArchivo(int id, bool archivar)
-        {
-            await _servicioFacturas.CambiarEstadoArchivo(id, archivar);
-        }
         public async Task AgregarFactura(Factura factura)
         {
+ 
             factura.Identificador = await GenerarNuevoID();
+
             int articuloID = 1;
             foreach (var articulo in factura.Articulos)
             {
@@ -40,19 +42,25 @@ namespace blazorfactura.Components.Servicios
 
         private async Task<int> GenerarNuevoID()
         {
-            var facturas = await _servicioFacturas.ObtenerFacturas();
-            return facturas.Any() ? facturas.Max(f => f.Identificador) + 1 : 1;
+        
+            return await _servicioFacturas.ObtenerSiguienteId();
         }
 
         public async Task EliminarFactura(int identificador)
         {
             await _servicioFacturas.EliminarFactura(identificador);
         }
+
         public async Task ActualizarFactura(Factura factura)
         {
             await _servicioFacturas.ActualizarFactura(factura);
-
         }
+
+        public async Task CambiarEstadoArchivo(int id, bool archivar)
+        {
+            await _servicioFacturas.CambiarEstadoArchivo(id, archivar);
+        }
+
         public async Task EliminarArticulo(int facturaId, int articuloId)
         {
             await _servicioFacturas.EliminarArticulo(facturaId, articuloId);
@@ -65,8 +73,16 @@ namespace blazorfactura.Components.Servicios
 
         public async Task AgregarArticuloAFacturaExistente(int facturaId, Articulo articulo)
         {
-            var facturas = await _servicioFacturas.ObtenerFacturas();
+
+            var facturas = await _servicioFacturas.ObtenerFacturas(verArchivadas: true);
             var factura = facturas.FirstOrDefault(f => f.Identificador == facturaId);
+
+       
+            if (factura == null)
+            {
+                facturas = await _servicioFacturas.ObtenerFacturas(verArchivadas: false);
+                factura = facturas.FirstOrDefault(f => f.Identificador == facturaId);
+            }
 
             if (factura != null && factura.Articulos.Any())
             {
@@ -80,19 +96,15 @@ namespace blazorfactura.Components.Servicios
             await _servicioFacturas.AgregarArticuloAFacturaExistente(facturaId, articulo);
         }
 
-
+ 
         public async Task<DashboardDatos> ObtenerDashboard()
         {
-
-            var listaFacturas = await ObtenerFacturas();
+            var listaFacturas = await ObtenerFacturas(); 
             var datos = new DashboardDatos();
-
 
             if (!listaFacturas.Any()) return datos;
 
-
             var todosLosArticulos = listaFacturas.SelectMany(f => f.Articulos).ToList();
-
             if (todosLosArticulos.Any())
             {
                 var topArticulo = todosLosArticulos
@@ -101,9 +113,18 @@ namespace blazorfactura.Components.Servicios
                     .FirstOrDefault();
 
                 if (topArticulo != null)
-                {
                     datos.ProductoMasVendido = $"{topArticulo.Key} ({topArticulo.Sum(a => a.Cantidad)} unds)";
-                }
+
+
+                var peorArticulo = todosLosArticulos
+                    .GroupBy(a => a.Nombre)
+                    .OrderBy(g => g.Sum(a => a.Cantidad))
+                    .FirstOrDefault();
+                if (peorArticulo != null)
+                    datos.ProductoMenosVendido = $"{peorArticulo.Key} ({peorArticulo.Sum(a => a.Cantidad)} unds)";
+
+ 
+                datos.TotalArticulosVendidos = todosLosArticulos.Sum(a => a.Cantidad);
             }
 
 
@@ -111,48 +132,23 @@ namespace blazorfactura.Components.Servicios
                 .GroupBy(f => f.Fecha.ToString("MMMM"))
                 .OrderByDescending(g => g.Sum(f => f.Total))
                 .FirstOrDefault();
-
             if (topMes != null)
-            {
-
                 datos.MesMejorVenta = $"{topMes.Key.ToUpper()} (${topMes.Sum(f => f.Total):F2})";
-            }
+
 
             var mejorCliente = listaFacturas
                 .GroupBy(f => f.NombreCliente)
                 .OrderByDescending(g => g.Sum(f => f.Total))
                 .FirstOrDefault();
-
             if (mejorCliente != null)
-            {
                 datos.ClienteVip = mejorCliente.Key;
-            }
 
 
             datos.IngresosTotales = listaFacturas.Sum(f => f.Total);
 
 
             if (listaFacturas.Count > 0)
-            {
                 datos.TicketPromedio = datos.IngresosTotales / listaFacturas.Count;
-            }
-            if (todosLosArticulos.Any())
-            {
-                var peorArticulo = todosLosArticulos
-                    .GroupBy(a => a.Nombre)
-                    .OrderBy(g => g.Sum(a => a.Cantidad))
-                    .FirstOrDefault();
-
-                if (peorArticulo != null)
-                {
-                    datos.ProductoMenosVendido = $"{peorArticulo.Key} ({peorArticulo.Sum(a => a.Cantidad)} unds)";
-                }
-            }
-
-            if (todosLosArticulos.Any())
-            {
-                datos.TotalArticulosVendidos = todosLosArticulos.Sum(a => a.Cantidad);
-            }
 
             return datos;
         }
