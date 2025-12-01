@@ -37,11 +37,12 @@ using var conexion = new SqliteConnection($"DataSource={ruta}");
 conexion.Open();
 
 var comando = conexion.CreateCommand();
-comando.CommandText = @"
+   comando.CommandText = @"
     CREATE TABLE IF NOT EXISTS Facturas (
         Identificador INTEGER PRIMARY KEY,
         Fecha TEXT,
-        NombreCliente TEXT
+        NombreCliente TEXT,
+        Archivada INTEGER DEFAULT 0
     )";
 comando.ExecuteNonQuery();
 

@@ -12,7 +12,19 @@ namespace blazorfactura.Components.Servicios
         }
         public async Task<List<Factura>> ObtenerFacturas()
         {
-            return await _servicioFacturas.ObtenerFacturas();
+            return await _servicioFacturas.ObtenerFacturas(incluirArchivadas: false);
+        }
+
+    
+        public async Task<List<Factura>> ObtenerFacturasArchivadas()
+        {
+            return await _servicioFacturas.ObtenerFacturas(incluirArchivadas: true);
+        }
+
+
+        public async Task CambiarEstadoArchivo(int id, bool archivar)
+        {
+            await _servicioFacturas.CambiarEstadoArchivo(id, archivar);
         }
         public async Task AgregarFactura(Factura factura)
         {
